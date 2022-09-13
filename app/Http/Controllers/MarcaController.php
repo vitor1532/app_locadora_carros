@@ -14,7 +14,8 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        echo 'get oi';
+        $marcas = Marca::all();
+        return $marcas;
     }
 
     /**
