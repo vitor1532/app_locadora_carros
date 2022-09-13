@@ -56,7 +56,7 @@ class MarcaController extends Controller
     {
         $marca = $this->marca->find($id);
         if($marca === null) {
-            return ['erro' => 'registro não encontrado'];
+            return response()->json(['erro' => 'registro não encontrado'], 404);
         }
         return $marca;
     }
@@ -84,7 +84,7 @@ class MarcaController extends Controller
         $marca = $this->marca->find($id);
 
         if($marca === null) {
-            return ['erro' => 'registro não encontrado'];
+            return response()->json(['erro' => 'registro não encontrado'], 404);
         }
         $marca->update($request->all());
         return $marca;
@@ -100,7 +100,7 @@ class MarcaController extends Controller
     {
         $marca = $this->marca->find($id);
         if($marca === null) {
-            return ['erro' => 'registro não encontrado'];
+            return response()->json(['erro' => 'registro não encontrado'], 404);
         }
         $marca->delete();
         return ['msg' => 'A marca '."'".$marca->nome."'".' foi deletada com sucesso'];
