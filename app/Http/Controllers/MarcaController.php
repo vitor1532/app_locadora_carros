@@ -20,7 +20,7 @@ class MarcaController extends Controller
     {
         //$marcas = Marca::all();
         $marcas = $this->marca->all();
-        return $marcas;
+        return response()->json($marcas, 200);
     }
 
     /**
@@ -37,13 +37,25 @@ class MarcaController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         //$marca = Marca::create($request->all());
         //dd($marca);
-        return $this->marca->create($request->all());
+        $rules= [
+            'nome' => 'required|unique:marcas',
+            'imagem' => 'required'
+        ];
+
+        $feedback = [
+            'required' => 'O campo :attribute é obrigatório',
+            'unique' => 'A marca indicada já existe'
+        ];
+
+        $request->validate($rules, $feedback);
+
+        return response()->json($this->marca->create($request->all()), 201);
     }
 
     /**
@@ -58,7 +70,7 @@ class MarcaController extends Controller
         if($marca === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
-        return $marca;
+        return response()->json($marca, 200);
     }
 
     /**
@@ -87,7 +99,7 @@ class MarcaController extends Controller
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
         $marca->update($request->all());
-        return $marca;
+        return response()->json($marca, 200);
     }
 
     /**
@@ -103,6 +115,7 @@ class MarcaController extends Controller
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
         $marca->delete();
-        return ['msg' => 'A marca '."'".$marca->nome."'".' foi deletada com sucesso'];
+        $msg = ['msg' => 'A marca '."'".$marca->nome."'".' foi deletada com sucesso'];
+        return response()->json($msg, 200);
     }
 }
