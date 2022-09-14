@@ -10,17 +10,19 @@ class Marca extends Model
     use HasFactory;
     protected $fillable = ['nome', 'imagem'];
 
-    public static function validar($request) {
-        $rules= [
-            'nome' => 'required|unique:marcas',
+    public function rules() {
+        return  [
+            'nome' => 'required|unique:marcas,nome,'.$this->id.'|min:3',
             'imagem' => 'required'
         ];
+    }
 
-        $feedback = [
+    public function feedback() {
+
+        return [
             'required' => 'O campo :attribute é obrigatório',
             'unique' => 'A marca indicada já existe'
         ];
 
-        $request->validate($rules, $feedback);
     }
 }

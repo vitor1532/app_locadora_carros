@@ -43,7 +43,7 @@ class MarcaController extends Controller
     {
         //$marca = Marca::create($request->all());
         //dd($marca);
-        Marca::validar($request);
+        $request->validate($this->marca->rules(), $this->marca->feedback());
 
         return response()->json($this->marca->create($request->all()), 201);
     }
@@ -79,7 +79,7 @@ class MarcaController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Integer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -88,6 +88,9 @@ class MarcaController extends Controller
         if($marca === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
+
+        $request->validate($this->marca->rules(), $this->marca->feedback());
+
         $marca->update($request->all());
         return response()->json($marca, 200);
     }
