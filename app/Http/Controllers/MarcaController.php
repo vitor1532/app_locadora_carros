@@ -103,13 +103,14 @@ class MarcaController extends Controller
     public function update(Request $request, $id)
     {
         $marca = $this->marca->find($id);
-
+        //dd($request->file('imagem'));
+        //dd($request->nome);
         if($marca === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
 
         if($request->method() === 'PATCH') {
-
+            //dd($request->nome);
             $regrasDinamicas = array();
 
             //percorrendo todas as regras definidas no model
@@ -123,14 +124,34 @@ class MarcaController extends Controller
 
             $request->validate($regrasDinamicas, $marca->feedback());
 
+            $image = $request->file('imagem');
+            if($image !== null) {
+                $imagem_urn = $image->store('imagens', 'public');
+                $marca->update([
+                    'imagem' => $imagem_urn,
+                ]);
+            } else {
+                $marca->update([
+                    'nome' => $request->nome,
+                ]);
+            }
+
         } else {
             $request->validate($marca->rules(), $marca->feedback());
+
+            $image = $request->file('imagem');
+            $imagem_urn = $image->store('imagens', 'public');
+            $marca->update([
+                'nome' => $request->nome,
+                'imagem' => $imagem_urn,
+            ]);
         }
 
+        //dd($request->file('imagem'));
 
 
-        $marca->update($request->all());
         return response()->json($marca, 200);
+
     }
 
     /**
