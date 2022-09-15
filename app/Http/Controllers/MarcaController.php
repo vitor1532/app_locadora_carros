@@ -79,7 +79,7 @@ class MarcaController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Integer
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
     public function update(Request $request, $id)
     {
@@ -89,7 +89,26 @@ class MarcaController extends Controller
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
 
-        $request->validate($this->marca->rules(), $this->marca->feedback());
+        if($request->method() === 'PATCH') {
+
+            $regrasDinamicas = array();
+
+            //percorrendo todas as regras definidas no model
+            foreach($marca->rules() as $input => $regra) {
+
+                //coletar apenas regras aplicaveis
+                if(array_key_exists($input, $request->all())) {
+                    $regrasDinamicas[$input] = $regra;
+                }
+            }
+
+            $request->validate($regrasDinamicas, $marca->feedback());
+
+        } else {
+            $request->validate($marca->rules(), $marca->feedback());
+        }
+
+
 
         $marca->update($request->all());
         return response()->json($marca, 200);
