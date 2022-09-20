@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Marca;
 use Illuminate\Http\Request;
 
@@ -126,6 +127,7 @@ class MarcaController extends Controller
 
             $image = $request->file('imagem');
             if($image !== null) {
+                Storage::disk('public')->delete($marca->imagem);
                 $imagem_urn = $image->store('imagens', 'public');
                 $marca->update([
                     'imagem' => $imagem_urn,
@@ -140,6 +142,7 @@ class MarcaController extends Controller
             $request->validate($marca->rules(), $marca->feedback());
 
             $image = $request->file('imagem');
+            Storage::disk('public')->delete($marca->imagem);
             $imagem_urn = $image->store('imagens', 'public');
             $marca->update([
                 'nome' => $request->nome,
@@ -166,6 +169,9 @@ class MarcaController extends Controller
         if($marca === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
+
+        Storage::disk('public')->delete($marca->imagem);
+
         $marca->delete();
         $msg = ['msg' => 'A marca '."'".$marca->nome."'".' foi deletada com sucesso'];
         return response()->json($msg, 200);
