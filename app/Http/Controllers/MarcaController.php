@@ -99,19 +99,19 @@ class MarcaController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Integer
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $marca = $this->marca->find($id);
         //dd($request->file('imagem'));
-        //dd($request->nome);
+
         if($marca === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
 
         if($request->method() === 'PATCH') {
-            //dd($request->nome);
+            //dd($request->all());
             $regrasDinamicas = array();
 
             //percorrendo todas as regras definidas no model
@@ -132,13 +132,15 @@ class MarcaController extends Controller
                 $marca->update([
                     'imagem' => $imagem_urn,
                 ]);
-            } else {
+            } else if ($request->nome !== null){
                 $marca->update([
                     'nome' => $request->nome,
                 ]);
+            } else {
+                return response()->json(['erro' => 'nome ou imagem não encontrados'], 404);
             }
 
-        } else {
+        } else if ($request->method() === 'PUT') {
             $request->validate($marca->rules(), $marca->feedback());
 
             $image = $request->file('imagem');
@@ -148,6 +150,8 @@ class MarcaController extends Controller
                 'nome' => $request->nome,
                 'imagem' => $imagem_urn,
             ]);
+        } else {
+            return response()->json(['erro' => 'registro não encontrado'], 404);
         }
 
         //dd($request->file('imagem'));

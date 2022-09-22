@@ -86,6 +86,18 @@ class ModeloController extends Controller
      */
     public function edit(Modelo $modelo)
     {
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
         $modelo = $this->modelo->find($id);
         //dd($request->file('imagem'));
         //dd($request->nome);
@@ -94,7 +106,7 @@ class ModeloController extends Controller
         }
 
         if($request->method() === 'PATCH') {
-            //dd($request->nome);
+            //dd('PATCH');
             $regrasDinamicas = array();
 
             //percorrendo todas as regras definidas no model
@@ -108,9 +120,13 @@ class ModeloController extends Controller
 
             $request->validate($regrasDinamicas);
 
-            dd($request);
 
             $image = $request->file('imagem');
+
+            dd($request);
+
+
+            /*
             if($image !== null) {
                 Storage::disk('public')->delete($modelo->imagem);
                 $imagem_urn = $image->store('imagens', 'public');
@@ -121,33 +137,28 @@ class ModeloController extends Controller
                 $modelo->update([
                     'nome' => $request->nome,
                 ]);
-            }
+            }*/
 
-        } else {
+        } else if ($request->method() === 'PUT') {
+
+            //dd('put');
             $request->validate($modelo->rules());
 
             $image = $request->file('imagem');
             Storage::disk('public')->delete($modelo->imagem);
             $imagem_urn = $image->store('imagens', 'public');
             $modelo->update([
+                'marca_id' => $request->marca_id,
                 'nome' => $request->nome,
                 'imagem' => $imagem_urn,
+                'numero_portas' => $request->numero_portas,//{1,2,3,4,5}
+                'lugares' => $request->lugares,
+                'air_bag' => $request->air_bag,
+                'abs' => $request->abs,
             ]);
         }
 
         return response()->json($modelo, 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Modelo  $modelo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Modelo $modelo)
-    {
-        //
     }
 
     /**
