@@ -21,7 +21,9 @@ class ModeloController extends Controller
     public function index()
     {
         $modelo = $this->modelo->all();
+
         return response()->json($modelo, 200);
+
     }
 
     /**
@@ -121,23 +123,39 @@ class ModeloController extends Controller
             $request->validate($regrasDinamicas);
 
 
-            $image = $request->file('imagem');
-
-            dd($request);
-
-
-            /*
-            if($image !== null) {
+            //$image = $request->file('imagem');
+            /*if($image !== null) {
                 Storage::disk('public')->delete($modelo->imagem);
                 $imagem_urn = $image->store('imagens', 'public');
                 $modelo->update([
                     'imagem' => $imagem_urn,
                 ]);
-            } else {
-                $modelo->update([
-                    'nome' => $request->nome,
-                ]);
             }*/
+            //dd($request->all());
+            if(count($request->all()) > 1){
+                //dd($request->all());
+                foreach($request->all() as $input => $attr) {
+
+                    switch($input) {
+                        case 'imagem':
+                            dd($modelo->imagem);
+                            Storage::disk('public')->delete($modelo->imagem);
+                            $imagem_urn = $request->file('imagem')->store('imagens', 'public');
+                            $modelo->update([
+                                'imagem' => $imagem_urn,
+                            ]);
+
+                        case $input:
+                            $modelo->update([
+                                $input => $attr
+                            ]);
+                    }
+                }
+            } else {
+
+                return ['msg' => 'o $request->all() retornou null'];
+            }
+
 
         } else if ($request->method() === 'PUT') {
 
@@ -145,10 +163,10 @@ class ModeloController extends Controller
             $request->validate($modelo->rules());
 
             $image = $request->file('imagem');
+
             Storage::disk('public')->delete($modelo->imagem);
             $imagem_urn = $image->store('imagens', 'public');
             $modelo->update([
-                'marca_id' => $request->marca_id,
                 'nome' => $request->nome,
                 'imagem' => $imagem_urn,
                 'numero_portas' => $request->numero_portas,//{1,2,3,4,5}
@@ -165,7 +183,7 @@ class ModeloController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  Integer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -177,7 +195,7 @@ class ModeloController extends Controller
         Storage::disk('public')->delete($modelo->imagem);
 
         $modelo->delete();
-        $msg = ['msg' => 'A marca '."'".$modelo->nome."'".' foi deletada com sucesso'];
+        $msg = ['msg' => 'O modelo '."'".$modelo->nome."'".' foi deletada com sucesso'];
         return response()->json($msg, 200);
     }
 }
