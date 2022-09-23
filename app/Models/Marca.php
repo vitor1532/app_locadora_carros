@@ -26,4 +26,9 @@ class Marca extends Model
         ];
 
     }
+
+    public function modelos() {
+        //uma marca possui muitos modelos
+        $this->hasMany('App\Models\Modelo');
+    }
 }

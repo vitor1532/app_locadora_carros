@@ -23,7 +23,8 @@ class Modelo extends Model
         ];
     }
 
-    public function feedback() {
-
+    public function marca() {
+        //cada modelo pertence a uma marca
+        $this->belongsTo('App\Models\Marca');
     }
 }
