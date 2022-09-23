@@ -25,6 +25,6 @@ class Modelo extends Model
 
     public function marca() {
         //cada modelo pertence a uma marca
-        $this->belongsTo('App\Models\Marca');
+        return $this->belongsTo('App\Models\Marca');
     }
 }
