@@ -50,7 +50,7 @@ class ModeloController extends Controller
 
 
         $image = $request->file('imagem');
-        $imagem_urn = $image->store('imagens', 'public');
+        $imagem_urn = $image->store('imagens/modelos', 'public');
 
         $modelo = $this->modelo->create([
             'marca_id' => $request->marca_id,
@@ -77,6 +77,7 @@ class ModeloController extends Controller
         if($modelo === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
+        //dd($modelo->imagem);
         return response()->json($modelo, 200);
     }
 
@@ -95,14 +96,11 @@ class ModeloController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  integer
+     * @param  \App\Models\Modelo  $modelo
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Modelo $modelo)
     {
-        $modelo = $this->modelo->find($id);
-        //dd($request->file('imagem'));
-        //dd($request->nome);
         if($modelo === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
@@ -120,36 +118,35 @@ class ModeloController extends Controller
                 }
             }
 
+            //remove o arquivo antigo caso um novo arquivo tenha sido enviado no request
+            if($request->file('imagem')) {
+                Storage::disk('public')->delete($modelo->imagem);
+            }
+
             $request->validate($regrasDinamicas);
 
-
-            //$image = $request->file('imagem');
-            /*if($image !== null) {
-                Storage::disk('public')->delete($modelo->imagem);
-                $imagem_urn = $image->store('imagens', 'public');
-                $modelo->update([
-                    'imagem' => $imagem_urn,
-                ]);
-            }*/
-            //dd($request->all());
             if(count($request->all()) > 1){
                 //dd($request->all());
                 foreach($request->all() as $input => $attr) {
 
                     switch($input) {
-                        case 'imagem':
-                            dd($modelo->imagem);
-                            Storage::disk('public')->delete($modelo->imagem);
-                            $imagem_urn = $request->file('imagem')->store('imagens', 'public');
-                            $modelo->update([
-                                'imagem' => $imagem_urn,
-                            ]);
-
                         case $input:
                             $modelo->update([
                                 $input => $attr
                             ]);
                     }
+                }
+
+                //checa se a imagem não é nula e insere os dados
+                if($request->imagem !== null) {
+                    //dd($modelo->imagem);
+                    $imagem = $request->file('imagem');
+                    $imagem_urn = $imagem->store('imagens/modelos', 'public');
+                    //dd($imagem_urn);
+                    //dd($modelo);
+                    $modelo->update([
+                        'imagem' => $imagem_urn,
+                    ]);
                 }
             } else {
 
@@ -165,7 +162,7 @@ class ModeloController extends Controller
             $image = $request->file('imagem');
 
             Storage::disk('public')->delete($modelo->imagem);
-            $imagem_urn = $image->store('imagens', 'public');
+            $imagem_urn = $image->store('imagens/modelos', 'public');
             $modelo->update([
                 'nome' => $request->nome,
                 'imagem' => $imagem_urn,
