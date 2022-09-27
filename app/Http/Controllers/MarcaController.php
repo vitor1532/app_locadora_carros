@@ -20,7 +20,6 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //$marcas = Marca::all();
         $marcas = $this->marca->with('modelos')->get();
         return response()->json($marcas, 200);
     }
@@ -106,20 +105,17 @@ class MarcaController extends Controller
     public function update(Request $request, $id)
     {
         $marca = $this->marca->find($id);
-        //dd($request->file('imagem'));
 
         if($marca === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
 
         if($request->method() === 'PATCH') {
-            //dd($request->all());
+
             $regrasDinamicas = array();
 
-            //percorrendo todas as regras definidas no model
             foreach($marca->rules() as $input => $regra) {
 
-                //coletar apenas regras aplicaveis
                 if(array_key_exists($input, $request->all())) {
                     $regrasDinamicas[$input] = $regra;
                 }
@@ -155,9 +151,6 @@ class MarcaController extends Controller
         } else {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
-
-        //dd($request->file('imagem'));
-
 
         return response()->json($marca, 200);
 

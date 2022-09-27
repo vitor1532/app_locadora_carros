@@ -77,7 +77,7 @@ class ModeloController extends Controller
         if($modelo === null) {
             return response()->json(['erro' => 'registro não encontrado'], 404);
         }
-        //dd($modelo->imagem);
+
         return response()->json($modelo, 200);
     }
 
@@ -106,19 +106,16 @@ class ModeloController extends Controller
         }
 
         if($request->method() === 'PATCH') {
-            //dd('PATCH');
+
             $regrasDinamicas = array();
 
-            //percorrendo todas as regras definidas no model
             foreach($modelo->rules() as $input => $regra) {
 
-                //coletar apenas regras aplicaveis
                 if(array_key_exists($input, $request->all())) {
                     $regrasDinamicas[$input] = $regra;
                 }
             }
 
-            //remove o arquivo antigo caso um novo arquivo tenha sido enviado no request
             if($request->file('imagem')) {
                 Storage::disk('public')->delete($modelo->imagem);
             }
@@ -126,7 +123,7 @@ class ModeloController extends Controller
             $request->validate($regrasDinamicas);
 
             if(count($request->all()) > 1){
-                //dd($request->all());
+
                 foreach($request->all() as $input => $attr) {
 
                     switch($input) {
@@ -139,11 +136,8 @@ class ModeloController extends Controller
 
                 //checa se a imagem não é nula e insere os dados
                 if($request->imagem !== null) {
-                    //dd($modelo->imagem);
                     $imagem = $request->file('imagem');
                     $imagem_urn = $imagem->store('imagens/modelos', 'public');
-                    //dd($imagem_urn);
-                    //dd($modelo);
                     $modelo->update([
                         'imagem' => $imagem_urn,
                     ]);
