@@ -16,11 +16,31 @@ class MarcaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $marcas = $this->marca->with('modelos')->get();
+        $marcas = [];
+
+        if($request->has('attr_modelo')) {
+            $attr_modelo = $request->attr_modelo;
+            $marcas = $this->marca->with('modelos:marca_id,'.$attr_modelo);
+        } else {
+            $marcas = $this->marca->with('modelos:marca_id');
+        }
+
+        if($request->has('attr')) {
+
+            $attr = $request->attr;
+
+            $marcas = $marcas->selectRaw($attr)->get();
+
+        } else {
+
+            $marcas = $marcas->get();
+
+        }
+
         return response()->json($marcas, 200);
     }
 
