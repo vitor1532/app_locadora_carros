@@ -25,9 +25,26 @@ class ModeloController extends Controller
 
         if($request->has('attr_marca')) {
             $attr_marca = $request->attr_marca;
-            $modelos = $this->modelo->with('marca:'.$attr_marca);
+            $modelos = $this->modelo->with('marca:nome,id,'.$attr_marca);
         } else {
-            $modelos = $this->modelo->with('marca');
+            $modelos = $this->modelo->with('marca:nome,id');
+        }
+
+        if($request->has('filtro')) {
+
+
+            $filtros = explode(';', $request->filtro);
+            //dd($filtros);
+
+            foreach($filtros as $key => $conditional) {
+
+                $c = explode(':', $conditional);
+
+                $modelos = $modelos->where($c[0], $c[1], $c[2]);
+            }
+
+
+
         }
 
         if($request->has('attr')) {
