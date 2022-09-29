@@ -29,6 +29,18 @@ class MarcaController extends Controller
             $marcas = $this->marca->with('modelos:marca_id');
         }
 
+        if($request->has('filtro')) {
+            $filtros = explode(';', $request->filtro);
+            //dd($filtros);
+
+            foreach($filtros as $key => $conditional) {
+
+                $c = explode(':', $conditional);
+
+                $marcas = $marcas->where($c[0], $c[1], $c[2]);
+            }
+        }
+
         if($request->has('attr')) {
 
             $attr = $request->attr;
