@@ -38,22 +38,14 @@ class MarcaController extends Controller
         }
 
         if($request->has('filtro')) {
-            $filtros = explode(';', $request->filtro);
-            //dd($filtros);
-
-            foreach($filtros as $key => $conditional) {
-
-                $c = explode(':', $conditional);
-
-                $marcas = $marcas->where($c[0], $c[1], $c[2]);
-            }
+            $marcaRepository->filtro($request->filtro);
         }
 
         if($request->has('attr')) {
 
             $attr = $request->attr;
-
-            $marcas = $marcas->selectRaw($attr)->get();
+            $marcaRepository->selectAtributos($attr);
+            //$marcas = $marcas->selectRaw($attr)->get();
 
         } else {
 
