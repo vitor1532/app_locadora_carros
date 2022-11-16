@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Carro extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['modelo_id','placa', 'disponível', 'km'];
+
+    public function rules() {
+        return  [
+            'modelo_id' => 'exists:marcas,id',
+            'placa' => 'required',
+            'disponível' => 'required',
+            'km' => 'required|integer',//{1,2,3,4,5}
+        ];
+    }
 }
