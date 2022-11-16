@@ -15,7 +15,7 @@
         }
 
         public function filtro($filtros) {
-            $filtros = explode(';', $request->filtro);
+            $filtros = explode(';', $filtros);
             //dd($filtros);
 
             foreach($filtros as $key => $conditional) {
@@ -27,10 +27,11 @@
         }
 
         public function selectAtributos($attr) {
-            $this->model = $this->model->selectRaw($attr)->get();
+            $this->model = $this->model->selectRaw($attr);
         }
 
         public function getResult() {
+            //dd($this->model);
             return $this->model->get();
         }
 

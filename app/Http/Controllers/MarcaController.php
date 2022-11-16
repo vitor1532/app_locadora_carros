@@ -47,13 +47,9 @@ class MarcaController extends Controller
             $marcaRepository->selectAtributos($attr);
             //$marcas = $marcas->selectRaw($attr)->get();
 
-        } else {
-
-            $marcas = $marcas->get();
-
         }
 
-        return response()->json($marcas, 200);
+        return response()->json($marcaRepository->getResult(), 200);
     }
 
     /**
