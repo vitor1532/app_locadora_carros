@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\MarcaRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Marca;
@@ -20,13 +21,20 @@ class MarcaController extends Controller
      */
     public function index(Request $request)
     {
+
+        $marcaRepository = new MarcaRepository($this->marca);
+
+
+        //-----------------------
+
         $marcas = [];
 
         if($request->has('attr_modelo')) {
             $attr_modelo = $request->attr_modelo;
-            $marcas = $this->marca->with('modelos:marca_id,'.$attr_modelo);
+
+            $marcaRepository->selectAtributosRegistrosRelacionados('modelos:marca_id,'.$attr_modelo);
         } else {
-            $marcas = $this->marca->with('modelos:marca_id');
+            $marcaRepository->selectAtributosRegistrosRelacionados('modelos');
         }
 
         if($request->has('filtro')) {
