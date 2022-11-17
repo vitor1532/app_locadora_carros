@@ -19,4 +19,9 @@ class Carro extends Model
             'km' => 'required|integer',
         ];
     }
+
+    public function modelo() {
+        //cada carro pertence a um modelo
+        return $this->belongsTo('App\Models\Modelo');
+    }
 }

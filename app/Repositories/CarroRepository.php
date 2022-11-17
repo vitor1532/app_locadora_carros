@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CarroRepository extends AbstractRepository
+class  CarroRepository extends AbstractRepository
 {
 
 
