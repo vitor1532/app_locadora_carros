@@ -16,7 +16,7 @@ class Carro extends Model
             'modelo_id' => 'exists:marcas,id',
             'placa' => 'required',
             'disponível' => 'required',
-            'km' => 'required|integer',//{1,2,3,4,5}
+            'km' => 'required|integer',
         ];
     }
 }
