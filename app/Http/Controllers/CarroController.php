@@ -20,8 +20,6 @@ class CarroController extends Controller
      */
     public function index(Request $request)
     {
-
-
         $carroRepository = new CarroRepository($this->carro);
 
         $carros = [];
