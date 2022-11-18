@@ -24,14 +24,6 @@ class LocacaoController extends Controller
         $locacoes = [];
         //-----------------------
 
-        if($request->has('attr_modelo')) {
-            $attr_modelo = $request->attr_modelo;
-
-            $locacaoRepository->selectAtributosRegistrosRelacionados('modelo:marca_id,'.$attr_modelo);
-        } else {
-            $locacaoRepository->selectAtributosRegistrosRelacionados('modelo');
-        }
-
         if($request->has('filtro')) {
             $locacaoRepository->filtro($request->filtro);
         }
@@ -160,7 +152,7 @@ class LocacaoController extends Controller
 
         $locacao->delete();
 
-        $msg = ['msg' => 'O carro '."'".$locacao->placa."'".' foi deletada com sucesso'];
+        $msg = ['msg' => 'A locação '."'".$locacao->id."'".' foi deletada com sucesso'];
         return response()->json($msg, 200);
     }
 }
