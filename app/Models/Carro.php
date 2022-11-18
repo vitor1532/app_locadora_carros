@@ -9,14 +9,14 @@ class Carro extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['modelo_id','placa', 'disponível', 'km'];
+    protected $fillable = ['modelo_id','placa', 'disponivel', 'km'];
 
     public function rules() {
         return  [
-            'modelo_id' => 'exists:marcas,id',
+            'modelo_id' => 'exists:modelos,id',
             'placa' => 'required',
-            'disponível' => 'required',
-            'km' => 'required|integer',
+            'disponivel' => 'required',
+            'km' => 'required|integer'
         ];
     }
 

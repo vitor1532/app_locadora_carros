@@ -18,7 +18,7 @@ class CarroController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
 
 
@@ -67,13 +67,14 @@ class CarroController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->carro->rules(), $this->carro->feedback());
+        //dd($request->all());
+        $request->validate($this->carro->rules());
 
         $carro = $this->carro->create([
             'modelo_id' => $request->modelo_id,
             'placa' => $request->placa,
             'disponivel' => $request->disponivel,
-            'km' => $request->km
+            'km' => $request->km,
         ]);
 
         return response()->json($carro, 201);
@@ -82,10 +83,10 @@ class CarroController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Carro  $carro
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Carro $carro)
+    public function show($id)
     {
         $carro = $this->carro->with('modelo')->find($id);
         if ($carro === null) {
@@ -109,11 +110,11 @@ class CarroController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Carro  $carro
+     * @param \Illuminate\Http\Request $request
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Carro $carro)
+    public function update(Request $request, $id)
     {
         $carro = $this->carro->find($id);
 
@@ -148,10 +149,10 @@ class CarroController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Carro  $carro
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Carro $carro)
+    public function destroy($id)
     {
         $carro = $this->carro->find($id);
         if($carro === null) {
