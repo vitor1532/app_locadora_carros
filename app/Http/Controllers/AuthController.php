@@ -20,19 +20,21 @@ class AuthController extends Controller
             //401 = unauthorized
         }
 
-        return 'login';
     }
 
     public function logout() {
-        return 'logout';
+        auth('api')->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
     public function refresh() {
-        return 'refresh';
+        $token = auth('api')->refresh(); //clint encaminhe um jwt válido
+        return response()->json(['token' => $token]);
     }
 
     public function me() {
-        return 'me';
+        return response()->json(auth()->user());
     }
 
 }
