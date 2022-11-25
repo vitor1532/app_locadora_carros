@@ -2081,6 +2081,7 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
+Vue.component('login-component', (__webpack_require__(/*! ./components/Login.vue */ "./resources/js/components/Login.vue")["default"]));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -37481,6 +37482,16 @@ process.umask = function() { return 0; };
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
   \******************************************************/
+/***/ (() => {
+
+throw new Error("Module build failed (from ./node_modules/vue-loader/dist/index.js):\nTypeError: Cannot read property 'styles' of undefined\n    at Object.loader (C:\\Users\\chico rei\\Documents\\Code\\app_locadora_carros\\node_modules\\vue-loader\\dist\\index.js:71:34)");
+
+/***/ }),
+
+/***/ "./resources/js/components/Login.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/components/Login.vue ***!
+  \*******************************************/
 /***/ (() => {
 
 throw new Error("Module build failed (from ./node_modules/vue-loader/dist/index.js):\nTypeError: Cannot read property 'styles' of undefined\n    at Object.loader (C:\\Users\\chico rei\\Documents\\Code\\app_locadora_carros\\node_modules\\vue-loader\\dist\\index.js:71:34)");
