@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Login (Component Vue)</div>
+                    <div class="card-header">Login</div>
 
                     <div class="card-body">
                         <form method="POST" action="">
@@ -62,9 +62,9 @@
 </template>
 
 <script>
-export default {
-name: ""
-}
+    export default {
+        props: ['token']
+    }
 </script>
 
 <style scoped>
