@@ -9,14 +9,30 @@
                     <div class="card-body">
                         <div class="form-row">
                             <div class="col mb-3">
-                                <label for="inputId" class="form-label">Id</label>
-                                <input type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="Informe o id da marca">
-                                <div id="idHelp" class="form-text text-secondary">Opcional.</div>
+
+                                <input-container-component
+                                    titulo="ID"
+                                    id="inputId"
+                                    type="number"
+                                    foo-help = "idHelp"
+                                    descricao = "Opcional."
+                                >
+                                    <input type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="Informe o ID da marca">
+                                </input-container-component>
+
                             </div>
                             <div class="col mb-3">
-                                <label for="inputNome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="inputNome" aria-describedby="idNome" placeholder="Informe o nome da marca">
-                                <div id="idNome" class="form-text text-secondary">Opcional.</div>
+
+                                <input-container-component
+                                    titulo="Nome"
+                                    id="inputNome"
+                                    type="text"
+                                    foo-help = "nomeHelp"
+                                    descricao = "Opcional."
+                                >
+                                    <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Informe o nome da marca">
+                                </input-container-component>
+
                             </div>
                         </div>
                     </div>
@@ -30,8 +46,11 @@
 </template>
 
 <script>
+import InputContainerComponent from "./InputContainerComponent.vue";
+
 export default {
-    name: "MarcasComponent"
+    name: "MarcasComponent",
+    components: {InputContainerComponent}
 }
 </script>
 
