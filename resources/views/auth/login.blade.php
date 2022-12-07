@@ -3,7 +3,7 @@
 @section('content')
 
     <login-component
-        token="@csrf"
+        csrf_token="{{ @csrf_token() }}"
     >
     </login-component>
 
