@@ -19,12 +19,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// Rotas /home
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+// Rotas /marcas
+Route::get('/marcas', function() {
+    return view('app.marcas');
+})->name('marcas')->middleware('auth');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
