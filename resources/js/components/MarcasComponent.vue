@@ -44,21 +44,21 @@
 
             <template v-slot:conteudo>
                 <div class="form-group">
-                    <input-container-component id="nameInput" titulo="Nome" fooHelp="nameHelp" descricao="Obrigatório.">
-                        <input type="text" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="Informe o nome da marca">
+                    <input-container-component id="marcaInput" titulo="Nome" fooHelp="marcaInputHelp" descricao="Obrigatório.">
+                        <input type="text" class="form-control" id="marcaInput" aria-describedby="marcaInputHelp" placeholder="Informe o nome da marca" v-model="nomeMarca">
                     </input-container-component>
                 </div>
 
                 <div class="form-group">
                     <input-container-component id="imageInput" titulo="Imagem" fooHelp="imageHelp" descricao="Obrigatório.">
-                        <input type="file" class="form-control-image" id="imageInput" placeholder="Selecione uma imagem">
+                        <input type="file" class="form-control-image" id="imageInput" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
                     </input-container-component>
                 </div>
             </template>
 
             <template v-slot:footer>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-                <button type="submit" class="btn btn-primary">Inserir Marca</button>
+                <button type="submit" class="btn btn-primary" @click="salvar()">Inserir marca</button>
             </template>
 
         </modal-component>
@@ -75,6 +75,40 @@
 
     export default {
         name: "MarcasComponent",
-        components: {InputContainerComponent, TableComponent, ModalComponent, CardComponent}
+        components: {InputContainerComponent, TableComponent, ModalComponent, CardComponent},
+        data() {
+            return {
+                urlBase: 'localhost:8000/api/v1/marca',
+                nomeMarca: '',
+                arquivoImagem: []
+            }
+        },
+        methods: {
+            carregarImagem(e) {
+                this.arquivoImagem = e.target.files
+            },
+            salvar() {
+                console.log(this.arquivoImagem[0], this.nomeMarca);
+
+                let formData = new FormData();
+                formData.append('nome', this.nomeMarca)
+                formData.append('imagem', this.arquivoImagem[0])
+
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Accept': 'application/json'
+                    }
+                }
+
+                axios.post(this.urlBase, formData, config)
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(errors => {
+                        console.log(errors)
+                    })
+            }
+        }
     }
 </script>

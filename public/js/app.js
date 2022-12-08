@@ -2195,6 +2195,35 @@ __webpack_require__.r(__webpack_exports__);
     TableComponent: _TableComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     ModalComponent: _ModalComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     CardComponent: _CardComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      urlBase: 'localhost:8000/api/v1/marca',
+      nomeMarca: '',
+      arquivoImagem: []
+    };
+  },
+  methods: {
+    carregarImagem: function carregarImagem(e) {
+      this.arquivoImagem = e.target.files;
+    },
+    salvar: function salvar() {
+      console.log(this.arquivoImagem[0], this.nomeMarca);
+      var formData = new FormData();
+      formData.append('nome', this.nomeMarca);
+      formData.append('imagem', this.arquivoImagem[0]);
+      var config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json'
+        }
+      };
+      axios.post(this.urlBase, formData, config).then(function (response) {
+        console.log(response);
+      })["catch"](function (errors) {
+        console.log(errors);
+      });
+    }
   }
 });
 
@@ -2666,18 +2695,33 @@ var render = function render() {
           staticClass: "form-group"
         }, [_c("input-container-component", {
           attrs: {
-            id: "nameInput",
+            id: "marcaInput",
             titulo: "Nome",
-            fooHelp: "nameHelp",
+            fooHelp: "marcaInputHelp",
             descricao: "Obrigatório."
           }
         }, [_c("input", {
+          directives: [{
+            name: "model",
+            rawName: "v-model",
+            value: _vm.nomeMarca,
+            expression: "nomeMarca"
+          }],
           staticClass: "form-control",
           attrs: {
             type: "text",
-            id: "nameInput",
-            "aria-describedby": "nameHelp",
+            id: "marcaInput",
+            "aria-describedby": "marcaInputHelp",
             placeholder: "Informe o nome da marca"
+          },
+          domProps: {
+            value: _vm.nomeMarca
+          },
+          on: {
+            input: function input($event) {
+              if ($event.target.composing) return;
+              _vm.nomeMarca = $event.target.value;
+            }
           }
         })])], 1), _vm._v(" "), _c("div", {
           staticClass: "form-group"
@@ -2693,7 +2737,12 @@ var render = function render() {
           attrs: {
             type: "file",
             id: "imageInput",
-            placeholder: "Selecione uma imagem"
+            placeholder: "Selecione uma imagem no formato PNG"
+          },
+          on: {
+            change: function change($event) {
+              return _vm.carregarImagem($event);
+            }
           }
         })])], 1)];
       },
@@ -2711,8 +2760,13 @@ var render = function render() {
           staticClass: "btn btn-primary",
           attrs: {
             type: "submit"
+          },
+          on: {
+            click: function click($event) {
+              return _vm.salvar();
+            }
           }
-        }, [_vm._v("Inserir Marca")])];
+        }, [_vm._v("Inserir marca")])];
       },
       proxy: true
     }])
