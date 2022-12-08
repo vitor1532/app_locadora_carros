@@ -2067,7 +2067,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "CardComponent",
-  props: ['title', 'btnText', 'btnType']
+  props: ['title']
 });
 
 /***/ }),
@@ -2229,14 +2229,9 @@ var render = function render() {
     staticClass: "card-header"
   }, [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _c("div", {
     staticClass: "card-body"
-  }, [_vm._t("default")], 2), _vm._v(" "), _c("div", {
+  }, [_vm._t("conteudo")], 2), _vm._v(" "), _c("div", {
     staticClass: "card-footer"
-  }, [_c("button", {
-    staticClass: "btn btn-primary btn-sm float-right",
-    attrs: {
-      type: _vm.btnType
-    }
-  }, [_vm._v(_vm._s(_vm.btnText))])])])]);
+  }, [_vm._t("rodape")], 2)])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -2545,55 +2540,89 @@ var render = function render() {
     staticClass: "col-md-8"
   }, [_c("card-component", {
     attrs: {
-      title: "Busca de marcas",
-      btnText: "Pesquisar",
-      btnType: "submit"
-    }
-  }, [_c("div", {
-    staticClass: "form-row"
-  }, [_c("div", {
-    staticClass: "col mb-3"
-  }, [_c("input-container-component", {
+      title: "Busca de marcas"
+    },
+    scopedSlots: _vm._u([{
+      key: "conteudo",
+      fn: function fn() {
+        return [_c("div", {
+          staticClass: "form-row"
+        }, [_c("div", {
+          staticClass: "col mb-3"
+        }, [_c("input-container-component", {
+          attrs: {
+            titulo: "ID",
+            id: "inputId",
+            type: "number",
+            "foo-help": "idHelp",
+            descricao: "Opcional."
+          }
+        }, [_c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "number",
+            id: "inputId",
+            "aria-describedby": "idHelp",
+            placeholder: "Informe o ID da marca"
+          }
+        })])], 1), _vm._v(" "), _c("div", {
+          staticClass: "col mb-3"
+        }, [_c("input-container-component", {
+          attrs: {
+            titulo: "Nome",
+            id: "inputNome",
+            type: "text",
+            "foo-help": "nomeHelp",
+            descricao: "Opcional."
+          }
+        }, [_c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            id: "inputNome",
+            "aria-describedby": "nomeHelp",
+            placeholder: "Informe o nome da marca"
+          }
+        })])], 1)])];
+      },
+      proxy: true
+    }, {
+      key: "rodape",
+      fn: function fn() {
+        return [_c("button", {
+          staticClass: "btn btn-primary btn-sm float-right",
+          attrs: {
+            type: "submit",
+            name: "btn"
+          }
+        }, [_vm._v("Pesquisar")])];
+      },
+      proxy: true
+    }])
+  }), _vm._v(" "), _c("card-component", {
     attrs: {
-      titulo: "ID",
-      id: "inputId",
-      type: "number",
-      "foo-help": "idHelp",
-      descricao: "Opcional."
-    }
-  }, [_c("input", {
-    staticClass: "form-control",
-    attrs: {
-      type: "number",
-      id: "inputId",
-      "aria-describedby": "idHelp",
-      placeholder: "Informe o ID da marca"
-    }
-  })])], 1), _vm._v(" "), _c("div", {
-    staticClass: "col mb-3"
-  }, [_c("input-container-component", {
-    attrs: {
-      titulo: "Nome",
-      id: "inputNome",
-      type: "text",
-      "foo-help": "nomeHelp",
-      descricao: "Opcional."
-    }
-  }, [_c("input", {
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      id: "inputNome",
-      "aria-describedby": "nomeHelp",
-      placeholder: "Informe o nome da marca"
-    }
-  })])], 1)])]), _vm._v(" "), _c("card-component", {
-    attrs: {
-      title: "Listagem de marcas",
-      btnText: "Adicionar",
-      btnType: "button"
-    }
-  }, [_c("table-component")], 1)], 1)])]);
+      title: "Listagem de marcas"
+    },
+    scopedSlots: _vm._u([{
+      key: "conteudo",
+      fn: function fn() {
+        return [_c("table-component")];
+      },
+      proxy: true
+    }, {
+      key: "rodape",
+      fn: function fn() {
+        return [_c("button", {
+          staticClass: "btn btn-primary btn-sm float-right",
+          attrs: {
+            type: "button",
+            name: "btn"
+          }
+        }, [_vm._v("Adicionar")])];
+      },
+      proxy: true
+    }])
+  })], 1)])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
