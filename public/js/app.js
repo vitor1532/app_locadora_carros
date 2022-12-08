@@ -2227,7 +2227,7 @@ var render = function render() {
     staticClass: "card mb-3"
   }, [_c("div", {
     staticClass: "card-header"
-  }, [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _c("div", {
+  }, [_vm._v(".: " + _vm._s(_vm.title))]), _vm._v(" "), _c("div", {
     staticClass: "card-body"
   }, [_vm._t("conteudo")], 2), _vm._v(" "), _c("div", {
     staticClass: "card-footer"
