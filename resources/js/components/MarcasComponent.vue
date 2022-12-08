@@ -40,7 +40,28 @@
             </div>
         </div>
         <!-- Modal -->
-        <modal-component id="criarMarcasModal" title="Criar Marcas"></modal-component>
+        <modal-component id="criarMarcasModal" title="Criar Marcas">
+
+            <template v-slot:conteudo>
+                <div class="form-group">
+                    <input-container-component id="nameInput" titulo="Nome" fooHelp="nameHelp" descricao="Obrigatório.">
+                        <input type="text" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="Informe o nome da marca">
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component id="imageInput" titulo="Imagem" fooHelp="imageHelp" descricao="Obrigatório.">
+                        <input type="file" class="form-control-image" id="imageInput" placeholder="Selecione uma imagem">
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:footer>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <button type="submit" class="btn btn-primary">Inserir Marca</button>
+            </template>
+
+        </modal-component>
 
     </div>
 

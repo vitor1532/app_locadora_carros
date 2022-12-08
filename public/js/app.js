@@ -2218,7 +2218,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     InputContainerComponent: _InputContainerComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: ['title']
+  props: ['title', 'id']
 });
 
 /***/ }),
@@ -2658,7 +2658,64 @@ var render = function render() {
     attrs: {
       id: "criarMarcasModal",
       title: "Criar Marcas"
-    }
+    },
+    scopedSlots: _vm._u([{
+      key: "conteudo",
+      fn: function fn() {
+        return [_c("div", {
+          staticClass: "form-group"
+        }, [_c("input-container-component", {
+          attrs: {
+            id: "nameInput",
+            titulo: "Nome",
+            fooHelp: "nameHelp",
+            descricao: "Obrigatório."
+          }
+        }, [_c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            id: "nameInput",
+            "aria-describedby": "nameHelp",
+            placeholder: "Informe o nome da marca"
+          }
+        })])], 1), _vm._v(" "), _c("div", {
+          staticClass: "form-group"
+        }, [_c("input-container-component", {
+          attrs: {
+            id: "imageInput",
+            titulo: "Imagem",
+            fooHelp: "imageHelp",
+            descricao: "Obrigatório."
+          }
+        }, [_c("input", {
+          staticClass: "form-control-image",
+          attrs: {
+            type: "file",
+            id: "imageInput",
+            placeholder: "Selecione uma imagem"
+          }
+        })])], 1)];
+      },
+      proxy: true
+    }, {
+      key: "footer",
+      fn: function fn() {
+        return [_c("button", {
+          staticClass: "btn btn-secondary",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal"
+          }
+        }, [_vm._v("Voltar")]), _vm._v(" "), _c("button", {
+          staticClass: "btn btn-primary",
+          attrs: {
+            type: "submit"
+          }
+        }, [_vm._v("Inserir Marca")])];
+      },
+      proxy: true
+    }])
   })], 1);
 };
 var staticRenderFns = [];
@@ -2685,7 +2742,7 @@ var render = function render() {
   return _c("div", {
     staticClass: "modal fade",
     attrs: {
-      id: "exampleModal",
+      id: _vm.id,
       tabindex: "-1",
       "aria-labelledby": "criarMarcasModalLabel",
       "aria-hidden": "true"
@@ -2703,37 +2760,9 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("div", [_c("div", {
-    staticClass: "mb-3"
-  }, [_c("input-container-component", {
-    attrs: {
-      id: "nameInput",
-      titulo: "Nome",
-      fooHelp: "nameHelp",
-      descricao: "Obrigatório."
-    }
-  }, [_c("input", {
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      id: "nameInput",
-      "aria-describedby": "nameHelp",
-      placeholder: "Informe o nome da marca"
-    }
-  })]), _vm._v(" "), _c("input-container-component", {
-    attrs: {
-      id: "imageInput",
-      titulo: "Imagem",
-      fooHelp: "imageHelp",
-      descricao: "Obrigatório."
-    }
-  }, [_c("input", {
-    staticClass: "form-control-file",
-    attrs: {
-      type: "file",
-      id: "imageInput"
-    }
-  })])], 1)])]), _vm._v(" "), _vm._m(1)])])]);
+  }, [_vm._t("conteudo")], 2), _vm._v(" "), _c("div", {
+    staticClass: "modal-footer"
+  }, [_vm._t("footer")], 2)])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -2750,23 +2779,6 @@ var staticRenderFns = [function () {
       "aria-hidden": "true"
     }
   }, [_vm._v("×")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "modal-footer"
-  }, [_c("button", {
-    staticClass: "btn btn-secondary",
-    attrs: {
-      type: "button",
-      "data-dismiss": "modal"
-    }
-  }, [_vm._v("Voltar")]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-primary",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("Inserir Marca")])]);
 }];
 render._withStripped = true;
 
