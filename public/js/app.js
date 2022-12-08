@@ -2516,7 +2516,7 @@ var render = function render() {
       "aria-describedby": "nomeHelp",
       placeholder: "Informe o nome da marca"
     }
-  })])], 1)])]), _vm._v(" "), _vm._m(0)])])])]);
+  })])], 1)])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -2529,6 +2529,57 @@ var staticRenderFns = [function () {
       type: "submit"
     }
   }, [_vm._v("Pesquisar")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "card mt-3"
+  }, [_c("div", {
+    staticClass: "card-header"
+  }, [_vm._v("Listagem de marcas")]), _vm._v(" "), _c("div", {
+    staticClass: "card-body"
+  }, [_c("table", {
+    staticClass: "table table-hover"
+  }, [_c("thead", [_c("tr", [_c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("#")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("First")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("Last")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("Handle")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("th", {
+    attrs: {
+      scope: "row"
+    }
+  }, [_vm._v("1")]), _vm._v(" "), _c("td", [_vm._v("Mark")]), _vm._v(" "), _c("td", [_vm._v("Otto")]), _vm._v(" "), _c("td", [_vm._v("@mdo")])]), _vm._v(" "), _c("tr", [_c("th", {
+    attrs: {
+      scope: "row"
+    }
+  }, [_vm._v("2")]), _vm._v(" "), _c("td", [_vm._v("Jacob")]), _vm._v(" "), _c("td", [_vm._v("Thornton")]), _vm._v(" "), _c("td", [_vm._v("@fat")])]), _vm._v(" "), _c("tr", [_c("th", {
+    attrs: {
+      scope: "row"
+    }
+  }, [_vm._v("3")]), _vm._v(" "), _c("td", {
+    attrs: {
+      colspan: "2"
+    }
+  }, [_vm._v("Larry the Bird")]), _vm._v(" "), _c("td", [_vm._v("@twitter")])])])])]), _vm._v(" "), _c("div", {
+    staticClass: "card-footer"
+  }, [_c("button", {
+    staticClass: "btn btn-primary btn-sm float-right",
+    attrs: {
+      type: "button"
+    }
+  }, [_vm._v("Adicionar")])])]);
 }];
 render._withStripped = true;
 
