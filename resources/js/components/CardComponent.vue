@@ -16,12 +16,8 @@
 </template>
 
 <script>
-export default {
-    name: "CardComponent",
-    props: ['title'],
-}
+    export default {
+        name: "CardComponent",
+        props: ['title'],
+    }
 </script>
-
-<style scoped>
-
-</style>

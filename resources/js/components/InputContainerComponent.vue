@@ -9,8 +9,8 @@
 </template>
 
 <script>
-export default {
-    el: "inputContainer",
-    props: ['id', 'titulo', 'fooHelp', 'descricao']
-}
+    export default {
+        el: "inputContainer",
+        props: ['id', 'titulo', 'fooHelp', 'descricao']
+    }
 </script>

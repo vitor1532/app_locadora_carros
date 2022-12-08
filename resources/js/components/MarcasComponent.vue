@@ -56,14 +56,12 @@
 </template>
 
 <script>
-import InputContainerComponent from "./InputContainerComponent.vue";
+    import InputContainerComponent from "./InputContainerComponent.vue";
+    import TableComponent from "./TableComponent.vue";
+    import CardComponent from "./CardComponent.vue";
 
-export default {
-    name: "MarcasComponent",
-    components: {InputContainerComponent}
-}
+    export default {
+        name: "MarcasComponent",
+        components: {InputContainerComponent, TableComponent, CardComponent}
+    }
 </script>
-
-<style scoped>
-
-</style>
