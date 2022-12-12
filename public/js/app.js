@@ -2120,7 +2120,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  el: "inputContainer",
+  name: "inputContainerComponent",
   props: ['id', 'titulo', 'fooHelp', 'descricao']
 });
 
@@ -2190,6 +2190,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MarcasComponent",
+  computed: {
+    token: function token() {
+      var token = document.cookie.split(';').find(function (i) {
+        return i.includes('token=');
+      });
+      token = token.split('=')[1];
+      token = 'Bearer ' + token;
+      return token;
+    }
+  },
   components: {
     InputContainerComponent: _InputContainerComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     TableComponent: _TableComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2198,7 +2208,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      urlBase: 'localhost:8000/api/v1/marca',
+      urlBase: 'http://127.0.0.1:8000/api/v1/marca',
       nomeMarca: '',
       arquivoImagem: []
     };
@@ -2208,16 +2218,17 @@ __webpack_require__.r(__webpack_exports__);
       this.arquivoImagem = e.target.files;
     },
     salvar: function salvar() {
-      console.log(this.arquivoImagem[0], this.nomeMarca);
       var formData = new FormData();
       formData.append('nome', this.nomeMarca);
       formData.append('imagem', this.arquivoImagem[0]);
       var config = {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Authorization': this.token
         }
       };
+      console.log(this.arquivoImagem[0], this.nomeMarca, config, formData, this.urlBase);
       axios.post(this.urlBase, formData, config).then(function (response) {
         console.log(response);
       })["catch"](function (errors) {
@@ -2727,16 +2738,16 @@ var render = function render() {
           staticClass: "form-group"
         }, [_c("input-container-component", {
           attrs: {
-            id: "imageInput",
+            id: "imagemInput",
             titulo: "Imagem",
-            fooHelp: "imageHelp",
+            fooHelp: "imagemHelp",
             descricao: "Obrigatório."
           }
         }, [_c("input", {
           staticClass: "form-control-image",
           attrs: {
             type: "file",
-            id: "imageInput",
+            id: "imagemInput",
             placeholder: "Selecione uma imagem no formato PNG"
           },
           on: {

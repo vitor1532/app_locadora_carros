@@ -10,7 +10,7 @@
 
 <script>
     export default {
-        el: "inputContainer",
+        name: "inputContainerComponent",
         props: ['id', 'titulo', 'fooHelp', 'descricao']
     }
 </script>

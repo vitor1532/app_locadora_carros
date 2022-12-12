@@ -39,6 +39,7 @@
                 <!-- Fim do card de listagem -->
             </div>
         </div>
+
         <!-- Modal -->
         <modal-component id="criarMarcasModal" title="Criar Marcas">
 
@@ -50,8 +51,8 @@
                 </div>
 
                 <div class="form-group">
-                    <input-container-component id="imageInput" titulo="Imagem" fooHelp="imageHelp" descricao="Obrigatório.">
-                        <input type="file" class="form-control-image" id="imageInput" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
+                    <input-container-component id="imagemInput" titulo="Imagem" fooHelp="imagemHelp" descricao="Obrigatório.">
+                        <input type="file" class="form-control-image" id="imagemInput" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
                     </input-container-component>
                 </div>
             </template>
@@ -62,6 +63,7 @@
             </template>
 
         </modal-component>
+        <!-- Fim do Modal -->
 
     </div>
 
@@ -75,10 +77,23 @@
 
     export default {
         name: "MarcasComponent",
+        computed: {
+            token() {
+                let token = document.cookie.split(';').find(i => {
+                    return i.includes('token=')
+                })
+
+                token = token.split('=')[1]
+
+                token = 'Bearer ' + token
+
+                return token
+            }
+        },
         components: {InputContainerComponent, TableComponent, ModalComponent, CardComponent},
         data() {
             return {
-                urlBase: 'localhost:8000/api/v1/marca',
+                urlBase: 'http://127.0.0.1:8000/api/v1/marca',
                 nomeMarca: '',
                 arquivoImagem: []
             }
@@ -88,7 +103,7 @@
                 this.arquivoImagem = e.target.files
             },
             salvar() {
-                console.log(this.arquivoImagem[0], this.nomeMarca);
+
 
                 let formData = new FormData();
                 formData.append('nome', this.nomeMarca)
@@ -97,9 +112,12 @@
                 let config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Authorization': this.token
                     }
                 }
+
+                console.log(this.arquivoImagem[0], this.nomeMarca, config, formData, this.urlBase);
 
                 axios.post(this.urlBase, formData, config)
                     .then(response => {
