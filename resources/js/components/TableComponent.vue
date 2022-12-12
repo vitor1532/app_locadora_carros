@@ -3,38 +3,47 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">{{ headId }}</th>
+                <th scope="col">{{ head1 }}</th>
+                <th scope="col">{{ head2 }}</th>
+
             </tr>
             </thead>
             <tbody>
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
+                <th scope="row"> marcasID </th>
+                <td> nome </td>
+                <td> imagem </td>
             </tr>
             </tbody>
         </table>
+        <button type="button" class="btn btn-primary btn-sm float-right" name="btn" @click="getMarca()">get</button>
+
     </div>
 </template>
 
 <script>
 export default {
-    name: "TableComponent"
+    name: "TableComponent",
+    props: ['headId', 'head1', 'head2'],
+    data() {
+        return {
+            urlBase: 'http://127.0.0.1:8000/api/v1/marca',
+            nomeMarca: '',
+            arquivoImagem: []
+        }
+    },
+    methods: {
+        getMarca() {
+            axios.get(this.urlBase)
+                .then(response => {
+                    console.log(response.data)
+                })
+                .catch(errors => {
+                    console.log(errors)
+                })
+        }
+    }
 }
 </script>
 

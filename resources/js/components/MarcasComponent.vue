@@ -29,7 +29,20 @@
                 <!-- Inicio do card de listagem -->
                 <card-component title="Listagem de marcas">
                     <template v-slot:conteudo>
-                        <table-component></table-component>
+
+
+
+
+                        <table-component
+                            headId="ID"
+                            head1="Nome da Marca"
+                            head2="Foto"
+                        >
+
+                        </table-component>
+
+
+
                     </template>
                     <template v-slot:rodape>
                         <!-- Button trigger modal -->
@@ -126,7 +139,8 @@
                     .catch(errors => {
                         console.log(errors)
                     })
-            }
+            },
+
         }
     }
 </script>
