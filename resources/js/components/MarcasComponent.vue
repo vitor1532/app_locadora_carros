@@ -28,10 +28,8 @@
 
                 <!-- Inicio do card de listagem -->
                 <card-component title="Listagem de marcas">
+
                     <template v-slot:conteudo>
-
-
-
 
                         <table-component
                             headId="ID"
@@ -55,6 +53,11 @@
 
         <!-- Modal -->
         <modal-component id="criarMarcasModal" title="Criar Marcas">
+
+            <template v-slot:alertas>
+                <alert-component tipo="success"></alert-component>
+                <alert-component tipo="danger"></alert-component>
+            </template>
 
             <template v-slot:conteudo>
                 <div class="form-group">
