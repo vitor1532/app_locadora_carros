@@ -17,7 +17,6 @@
             </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-primary btn-sm float-right" name="btn">get</button>
 
     </div>
 </template>

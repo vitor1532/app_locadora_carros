@@ -48,6 +48,7 @@
                     </template>
                 </card-component>
                 <!-- Fim do card de listagem -->
+                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" @click="carregarLista()">get</button>
             </div>
         </div>
 
@@ -117,6 +118,15 @@
             }
         },
         methods: {
+            carregarLista() {
+                axios.get(this.urlBase)
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(errors => {
+                        console.log(errors)
+                    })
+            },
             carregarImagem(e) {
                 this.arquivoImagem = e.target.files
             },
