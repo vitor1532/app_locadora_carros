@@ -55,7 +55,7 @@
         <modal-component id="criarMarcasModal" title="Criar Marcas">
 
             <template v-slot:alertas>
-                <alert-component tipo="success" v-if="transacaoStatus == 'adicionado'"></alert-component>
+                <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao tentar cadastrar a marca" v-if="transacaoStatus == 'adicionado'"></alert-component>
                 <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar a marca" v-if="transacaoStatus == 'erro'"></alert-component>
             </template>
 
@@ -140,7 +140,7 @@
                 axios.post(this.urlBase, formData, config)
                     .then(response => {
                         this.transacaoStatus = 'adicionado'
-                        console.log(response)
+                        this.transacaoDetalhes = response
                     })
                     .catch(errors => {
                         this.transacaoStatus = 'erro'
