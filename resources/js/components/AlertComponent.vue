@@ -1,8 +1,12 @@
 <template>
 
     <div :class="estilo" role="alert">
-        <slot name="mensagemSuccess"></slot>
-        <slot name="mensagemErro"></slot>
+        <h5 class="font-weight-bold">{{ titulo }}</h5>
+        <hr>
+        {{ detalhes.data.message }} <br>
+        <ul v-if="detalhes.data.errors">
+            <li v-for="e, key in detalhes.data.errors" :key="key"> {{ e[0] }}</li>
+        </ul>
     </div>
 
 </template>
@@ -10,11 +14,11 @@
 <script>
 export default {
     name: "AlertComponent",
-    props:['tipo'],
+    props:['tipo', 'titulo', 'detalhes'],
     computed: {
         estilo() {
             return 'alert alert-'+this.tipo
-        }
+        },
     }
 }
 </script>

@@ -55,13 +55,8 @@
         <modal-component id="criarMarcasModal" title="Criar Marcas">
 
             <template v-slot:alertas>
-                <alert-component tipo="success" v-if="transacaoStatus == 'adicionado'"><template v-slot:mensagemSuccess>asasasasa</template></alert-component>
-                <alert-component tipo="danger" v-if="transacaoStatus == 'erro'">
-                    <template v-slot:mensagemErro>
-                        <span v-if="transacaoDetalhes">{{ transacaoDetalhes.nome[0] }}</span><br>
-                        {{ transacaoDetalhes.imagem[1] }}
-                    </template>
-                </alert-component>
+                <alert-component tipo="success" v-if="transacaoStatus == 'adicionado'"></alert-component>
+                <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar a marca" v-if="transacaoStatus == 'erro'"></alert-component>
             </template>
 
             <template v-slot:conteudo>
@@ -149,8 +144,8 @@
                     })
                     .catch(errors => {
                         this.transacaoStatus = 'erro'
-                        this.transacaoDetalhes = errors.response.data.errors
-                        //console.log(this.transacaoDetalhes.)
+                        this.transacaoDetalhes = errors.response
+                        //errors.response.data.errors
                     })
             },
 
