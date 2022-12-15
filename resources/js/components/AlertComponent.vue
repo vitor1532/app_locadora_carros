@@ -1,7 +1,8 @@
 <template>
 
     <div :class="estilo" role="alert">
-        A simple success alert—check it out!
+        <slot name="mensagemSuccess"></slot>
+        <slot name="mensagemErro"></slot>
     </div>
 
 </template>
@@ -12,7 +13,6 @@ export default {
     props:['tipo'],
     computed: {
         estilo() {
-
             return 'alert alert-'+this.tipo
         }
     }
