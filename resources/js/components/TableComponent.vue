@@ -10,13 +10,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row"> marcasID </th>
-                <td> nome </td>
-                <td> imagem </td>
+            <tr v-for="o, key in lista.dados" :key="key">
+                <!-- v-for="e, key in detalhes.dados" :key="key"         {{ lista.dados }}-->
+                <th scope="row"> {{o.id}} </th>
+                <td> {{o.nome}} </td>
+                <td> {{o.imagem}} </td>
             </tr>
             </tbody>
         </table>
+
 
     </div>
 </template>
@@ -24,7 +26,7 @@
 <script>
 export default {
     name: "TableComponent",
-    props: ['headId', 'head1', 'head2'],
+    props: ['headId', 'head1', 'head2', 'lista'],
 }
 </script>
 

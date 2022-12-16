@@ -35,6 +35,7 @@
                             headId="ID"
                             head1="Nome da Marca"
                             head2="Foto"
+                            :lista="marcas"
                         >
 
                         </table-component>
@@ -48,7 +49,6 @@
                     </template>
                 </card-component>
                 <!-- Fim do card de listagem -->
-                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" @click="carregarLista()">get</button>
             </div>
         </div>
 
@@ -114,14 +114,25 @@
                 nomeMarca: '',
                 arquivoImagem: [],
                 transacaoStatus: '',
-                transacaoDetalhes: {}
+                transacaoDetalhes: {},
+                marcas: {}
             }
         },
         methods: {
             carregarLista() {
-                axios.get(this.urlBase)
+
+                let config = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': this.token
+                    }
+                }
+
+                axios.get(this.urlBase, config)
                     .then(response => {
-                        console.log(response)
+                        this.marcas = {
+                            dados: response.data
+                        }
                     })
                     .catch(errors => {
                         console.log(errors)
@@ -164,6 +175,9 @@
                     })
             },
 
+        },
+        mounted() {
+            this.carregarLista()
         }
     }
 </script>
