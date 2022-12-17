@@ -33,7 +33,12 @@
 
                         <table-component
                             :dados="marcas"
-                            :titulos="['id', 'nome', 'imagem', 'created_at']"
+                            :titulos="{
+                                id: {titulo: 'ID', tipo:'text'},
+                                nome: {titulo: 'Nome', tipo:'text'},
+                                imagem: {titulo: 'Imagem', tipo:'img'},
+                                created_at: {titulo: 'Data de Criação', tipo:'data'}
+                            }"
                         >
 
                         </table-component>
