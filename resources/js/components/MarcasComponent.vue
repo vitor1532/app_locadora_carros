@@ -47,8 +47,15 @@
 
                     </template>
                     <template v-slot:rodape>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary btn-sm float-right" name="btn" data-toggle="modal" data-target="#criarMarcasModal">Adicionar</button>
+                        <div class="row">
+                            <div class="col-10">
+                                <paginate-component></paginate-component>
+                            </div>
+                            <!-- Button trigger modal -->
+                            <div class="col">
+                                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" data-toggle="modal" data-target="#criarMarcasModal">Adicionar</button>
+                            </div>
+                        </div>
                     </template>
                 </card-component>
                 <!-- Fim do card de listagem -->
