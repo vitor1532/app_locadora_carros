@@ -2,9 +2,9 @@
     <div>
         <table class="table table-hover">
             <thead>
-            <tr>
-                <th scope="col" v-for="t, key in titulos" :key="key">{{t.titulo}}</th>
-            </tr>
+                <tr>
+                    <th scope="col" v-for="t, key in titulos" :key="key">{{t.titulo}}</th>
+                </tr>
             </thead>
             <tbody>
             <tr v-for="obj, chave in dadosFiltrados" :key="chave">
@@ -33,7 +33,7 @@ export default {
             let campos = Object.keys(this.titulos)
             let dadosFiltrados = []
 
-            this.dados.map((i, key) => {
+            Array.from(this.dados).map((i, key) => {
 
                 let itemFiltrado = {}
 
@@ -43,7 +43,7 @@ export default {
                 dadosFiltrados.push(itemFiltrado)
             })
 
-            console.log(dadosFiltrados)
+            // console.log(dadosFiltrados)
 
             return dadosFiltrados
         }
