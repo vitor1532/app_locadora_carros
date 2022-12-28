@@ -33,8 +33,6 @@ export default {
             let campos = Object.keys(this.titulos)
             let dadosFiltrados = []
 
-            console.log('dados: '+this.dados)
-
             this.dados.map((i, key) => {
 
                 let itemFiltrado = {}
@@ -44,8 +42,6 @@ export default {
                 })
                 dadosFiltrados.push(itemFiltrado)
             })
-
-            // console.log(dadosFiltrados)
 
             return dadosFiltrados
         }
