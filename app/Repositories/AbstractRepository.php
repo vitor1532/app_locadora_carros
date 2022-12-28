@@ -36,8 +36,12 @@
 
         public function getResult()
         {
-            //dd($this->model);
             return $this->model->get();
+        }
+
+        public function getResultPaginado($numRegistroPorPagina)
+        {
+            return $this->model->paginate($numRegistroPorPagina);
         }
     }
 

@@ -33,7 +33,9 @@ export default {
             let campos = Object.keys(this.titulos)
             let dadosFiltrados = []
 
-            Array.from(this.dados).map((i, key) => {
+            console.log('dados: '+this.dados)
+
+            this.dados.map((i, key) => {
 
                 let itemFiltrado = {}
 
