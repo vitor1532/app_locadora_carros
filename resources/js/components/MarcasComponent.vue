@@ -110,6 +110,19 @@
             </template>
 
             <template v-slot:conteudo>
+                {{$store.state.item}}
+                <input-container-component titulo="ID">
+                    <input type="text" class="form-control" :value="$store.state.item.id" disabled/>
+                </input-container-component>
+                <input-container-component titulo="Nome">
+                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled/>
+                </input-container-component>
+                <!--<input-container-component titulo="Imagem">
+                    <input type="file" class="form-control" :value="$store.state.item.imagem" disabled/>
+                </input-container-component>-->
+                <input-container-component titulo="Data Criação">
+                    <input type="text" class="form-control" :value="$store.state.item.created_at" disabled/>
+                </input-container-component>
             </template>
 
             <template v-slot:footer>
