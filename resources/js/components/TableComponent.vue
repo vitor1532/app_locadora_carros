@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th scope="col" v-for="t, key in titulos" :key="key">{{t.titulo}}</th>
-                    <th v-if="visualizarBotao || atualizarBotao || removerBotao">...</th>
+                    <th v-if="visualizar.visivel || atualizar || remover">...</th>
                 </tr>
             </thead>
             <tbody>
@@ -16,10 +16,10 @@
                         <img :src="'/storage/'+valor" width="30" height="30">
                     </span>
                 </td>
-                <td v-if="visualizarBotao || atualizarBotao || removerBotao">
-                    <button v-if="visualizarBotao" class="btn btn-outline-success btn-sm">Visualizar</button>
-                    <button v-if="atualizarBotao" class="btn btn-outline-primary btn-sm">Editar</button>
-                    <button v-if="removerBotao" class="btn btn-outline-danger btn-sm" @click="deleteRegistro()">Deletar</button>
+                <td v-if="visualizar.visivel || atualizar || remover">
+                    <button v-if="visualizar.visivel" class="btn btn-outline-success btn-sm" :data-toggle="visualizar.dataToggle" :data-target="visualizar.dataTarget">Visualizar</button>
+                    <button v-if="atualizar" class="btn btn-outline-primary btn-sm">Editar</button>
+                    <button v-if="remover" class="btn btn-outline-danger btn-sm" @click="deleteRegistro()">Deletar</button>
                 </td>
             </tr>
             </tbody>
@@ -32,7 +32,7 @@
 <script>
 export default {
     name: "TableComponent",
-    props: ['titulos', 'dados', 'visualizarBotao', 'atualizarBotao', 'removerBotao'],
+    props: ['titulos', 'dados', 'visualizar', 'atualizar', 'remover'],
     computed: {
         dadosFiltrados() {
 

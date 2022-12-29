@@ -33,9 +33,13 @@
 
                         <table-component
                             :dados="marcas.data"
-                            :visualizarBotao="true"
-                            :atualizarBotao="true"
-                            :removerBotao="true"
+                            :visualizar="{
+                                visivel: true,
+                                dataToggle: 'modal',
+                                dataTarget: '#modalVisualizarMarca'
+                            }"
+                            :atualizar="true"
+                            :remover="true"
                             :titulos="{
                                 id: {titulo: 'ID', tipo:'text'},
                                 nome: {titulo: 'Nome', tipo:'text'},
@@ -70,7 +74,7 @@
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal de inclusão de marca -->
         <modal-component id="criarMarcasModal" title="Criar Marcas">
 
             <template v-slot:alertas>
@@ -98,7 +102,21 @@
             </template>
 
         </modal-component>
-        <!-- Fim do Modal -->
+        <!-- Fim do Modal de inclusão de marca -->
+
+        <!-- Modal de visualização de marca -->
+        <modal-component id="modalVisualizarMarca" title="Vizualizar Marca">
+            <template v-slot:alertas>
+            </template>
+
+            <template v-slot:conteudo>
+            </template>
+
+            <template v-slot:footer>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+            </template>
+        </modal-component>
+        <!-- Fim do Modal de visualização de marca -->
 
     </div>
 
