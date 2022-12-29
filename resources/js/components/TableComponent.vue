@@ -4,6 +4,7 @@
             <thead>
                 <tr>
                     <th scope="col" v-for="t, key in titulos" :key="key">{{t.titulo}}</th>
+                    <th v-if="visualizarBotao || atualizarBotao || removerBotao">...</th>
                 </tr>
             </thead>
             <tbody>
@@ -14,6 +15,11 @@
                     <span v-if="titulos[chaveValor].tipo == 'img'">
                         <img :src="'/storage/'+valor" width="30" height="30">
                     </span>
+                </td>
+                <td v-if="visualizarBotao || atualizarBotao || removerBotao">
+                    <button v-if="visualizarBotao" class="btn btn-outline-success btn-sm">Visualizar</button>
+                    <button v-if="atualizarBotao" class="btn btn-outline-primary btn-sm">Editar</button>
+                    <button v-if="removerBotao" class="btn btn-outline-danger btn-sm" @click="deleteRegistro()">Deletar</button>
                 </td>
             </tr>
             </tbody>
@@ -26,7 +32,7 @@
 <script>
 export default {
     name: "TableComponent",
-    props: ['titulos', 'dados'],
+    props: ['titulos', 'dados', 'visualizarBotao', 'atualizarBotao', 'removerBotao'],
     computed: {
         dadosFiltrados() {
 
@@ -44,6 +50,11 @@ export default {
             })
 
             return dadosFiltrados
+        }
+    },
+    methods: {
+        deleteRegistro() {
+
         }
     }
     //

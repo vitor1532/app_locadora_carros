@@ -33,6 +33,9 @@
 
                         <table-component
                             :dados="marcas.data"
+                            :visualizarBotao="true"
+                            :atualizarBotao="true"
+                            :removerBotao="true"
                             :titulos="{
                                 id: {titulo: 'ID', tipo:'text'},
                                 nome: {titulo: 'Nome', tipo:'text'},
