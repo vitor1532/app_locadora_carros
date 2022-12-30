@@ -28,30 +28,14 @@
 
                 <!-- Inicio do card de listagem -->
                 <card-component title="Listagem de marcas">
-
                     <template v-slot:conteudo>
-
                         <table-component
                             :dados="marcas.data"
-                            :visualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalVisualizarMarca'
-                            }"
-                            :atualizar="true"
+                            :visualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#modalVisualizarMarca'}"
+                            :atualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#modalEditarMarca'}"
                             :remover="true"
-                            :titulos="{
-                                id: {titulo: 'ID', tipo:'text'},
-                                nome: {titulo: 'Nome', tipo:'text'},
-                                imagem: {titulo: 'Imagem', tipo:'img'},
-                                created_at: {titulo: 'Data de Criação', tipo:'data'}
-                            }"
-                        >
-
+                            :titulos="{id: {titulo: 'ID', tipo:'text'}, nome: {titulo: 'Nome', tipo:'text'}, imagem: {titulo: 'Imagem', tipo:'img'}, created_at: {titulo: 'Data de Criação', tipo:'data'}}">
                         </table-component>
-
-
-
                     </template>
 
                     <template v-slot:rodape>
@@ -110,16 +94,15 @@
             </template>
 
             <template v-slot:conteudo>
-                {{$store.state.item}}
                 <input-container-component titulo="ID">
                     <input type="text" class="form-control" :value="$store.state.item.id" disabled/>
                 </input-container-component>
                 <input-container-component titulo="Nome">
                     <input type="text" class="form-control" :value="$store.state.item.nome" disabled/>
                 </input-container-component>
-                <!--<input-container-component titulo="Imagem">
-                    <input type="file" class="form-control" :value="$store.state.item.imagem" disabled/>
-                </input-container-component>-->
+                <input-container-component titulo="Imagem">
+                    <br><img :src="'/storage/'+$store.state.item.imagem" width="50" height="50">
+                </input-container-component>
                 <input-container-component titulo="Data Criação">
                     <input type="text" class="form-control" :value="$store.state.item.created_at" disabled/>
                 </input-container-component>
@@ -130,6 +113,33 @@
             </template>
         </modal-component>
         <!-- Fim do Modal de visualização de marca -->
+
+        <!-- Inicio do Modal de Edição de marca -->
+        <modal-component id="modalEditarMarca" title="Editar Marca">
+            <template v-slot:alertas>
+            </template>
+
+            <template v-slot:conteudo>
+                <input-container-component titulo="ID">
+                    <input type="text" class="form-control" :value="$store.state.item.id"/>
+                </input-container-component>
+                <input-container-component titulo="Nome">
+                    <input type="text" class="form-control" :value="$store.state.item.nome"/>
+                </input-container-component>
+                <input-container-component id="imagemInput" titulo="Imagem" fooHelp="imagemHelp" descricao="Obrigatório.">
+                    <input type="file" class="form-control-image" id="imagemInput" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
+                </input-container-component>
+                <input-container-component titulo="Data Criação">
+                    <input type="text" class="form-control" :value="$store.state.item.created_at"/>
+                </input-container-component>
+            </template>
+
+            <template v-slot:footer>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <button type="submit" class="btn btn-primary" @click="atualizar()">Atualizar marca</button>
+            </template>
+        </modal-component>
+        <!-- Fim do Modal de Edição de marca -->
 
     </div>
 
@@ -229,7 +239,6 @@
             },
             salvar() {
 
-
                 let formData = new FormData();
                 formData.append('nome', this.nomeMarca)
                 formData.append('imagem', this.arquivoImagem[0])
@@ -260,6 +269,9 @@
                         //errors.response.data.errors
                     })
             },
+            atualizar() {
+
+            }
 
         },
         mounted() {

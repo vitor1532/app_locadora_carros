@@ -18,7 +18,7 @@
                 </td>
                 <td v-if="visualizar.visivel || atualizar || remover">
                     <button v-if="visualizar.visivel" class="btn btn-outline-success btn-sm" :data-toggle="visualizar.dataToggle" :data-target="visualizar.dataTarget" @click="setStore(obj)">Visualizar</button>
-                    <button v-if="atualizar" class="btn btn-outline-primary btn-sm">Editar</button>
+                    <button v-if="atualizar.visivel" class="btn btn-outline-primary btn-sm" :data-toggle="atualizar.dataToggle" :data-target="atualizar.dataTarget" @click="editarRegistro(obj)">Editar</button>
                     <button v-if="remover" class="btn btn-outline-danger btn-sm" @click="deleteRegistro()">Deletar</button>
                 </td>
             </tr>
@@ -54,6 +54,10 @@ export default {
     },
     methods: {
         setStore(obj) {
+            console.log(obj)
+            this.$store.state.item = obj
+        },
+        editarRegistro(obj) {
             console.log(obj)
             this.$store.state.item = obj
         },
