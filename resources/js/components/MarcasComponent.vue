@@ -120,17 +120,12 @@
             </template>
 
             <template v-slot:conteudo>
-                <input-container-component titulo="ID">
-                    <input type="text" class="form-control" :value="$store.state.item.id"/>
-                </input-container-component>
                 <input-container-component titulo="Nome">
-                    <input type="text" class="form-control" :value="$store.state.item.nome"/>
+                    Nome Autal: <strong>{{$store.state.item.nome}}</strong>
+                    <input type="text" class="form-control" v-model="nomeMarca" :placeholder="$store.state.item.nome"/>
                 </input-container-component>
                 <input-container-component id="imagemInput" titulo="Imagem" fooHelp="imagemHelp" descricao="Obrigatório.">
                     <input type="file" class="form-control-image" id="imagemInput" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
-                </input-container-component>
-                <input-container-component titulo="Data Criação">
-                    <input type="text" class="form-control" :value="$store.state.item.created_at"/>
                 </input-container-component>
             </template>
 
@@ -178,6 +173,7 @@
                 transacaoDetalhes: {},
                 marcas: { data: [] },
                 busca: { id:'', nome: '' },
+                method: '',
             }
         },
         methods: {
@@ -270,7 +266,30 @@
                     })
             },
             atualizar() {
+                let formData = new FormData();
+                formData.append('nome', this.nomeMarca)
+                formData.append('imagem', this.arquivoImagem[0])
 
+                if(!formData.has('nome') || !formData.has('imagem')) {
+                    this.method = 'PATCH'
+                } else {
+                    this.method = 'PUT'
+                }
+
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Accept': 'application/json',
+                        'Authorization': this.token,
+                        '_method': this.method,
+                    }
+                }
+
+                let url = this.urlBase+'/'+this.$store.state.item.id
+
+                console.log(url)
+
+                console.log(this.nomeMarca);
             }
 
         },
