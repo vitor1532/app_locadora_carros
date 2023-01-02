@@ -101,7 +101,7 @@
                     <input type="text" class="form-control" :value="$store.state.item.nome" disabled/>
                 </input-container-component>
                 <input-container-component titulo="Imagem">
-                    <br><img :src="'/storage/'+$store.state.item.imagem" width="50" height="50">
+                    <br><img :src="'/storage/'+$store.state.item.imagem" width="50" height="50" v-if="$store.state.item.imagem">
                 </input-container-component>
                 <input-container-component titulo="Data Criação">
                     <input type="text" class="form-control" :value="$store.state.item.created_at" disabled/>
@@ -339,9 +339,7 @@
                         'Accept': 'application/json',
                         'Authorization': this.token,
                     },
-
                 }
-
                 let url = this.urlBase + '/' + this.$store.state.item.id
 
                 axios.delete(url, config)
@@ -359,8 +357,6 @@
                         }
                     })
             }
-
-
         },
         mounted() {
             this.carregarLista()
