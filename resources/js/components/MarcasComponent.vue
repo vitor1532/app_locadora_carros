@@ -172,6 +172,7 @@
     import ModalComponent from "./ModalComponent.vue";
 
     export default {
+        
         name: "MarcasComponent",
         computed: {
             token() {
@@ -323,56 +324,7 @@
                         this.$store.state.transacao.status = 'erro'
                         this.$store.state.transacao.mensagem = errors.response.data.message
                         this.$store.state.transacao.dados = errors.response.data.errors
-
                     })
-                // let formData = new FormData();
-                // formData.append('nome', this.$store.state.item.nome)
-                //
-                // if(formData.get('nome') === '' || formData.get('imagem') === 'undefined') {
-                //     this.method = 'PATCH'
-                //     if(this.arquivoImagem[0]) {
-                //         formData.append('imagem', this.arquivoImagem[0])
-                //     }
-                //
-                // } else {
-                //     this.method = 'PUT'
-                //     formData.append('nome', this.$store.state.item.nome)
-                //     formData.append('imagem', this.arquivoImagem[0])
-                // }
-                //
-                // formData.append("_method", this.method)
-                //
-                // let config = {
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data',
-                //         'Accept': 'application/json',
-                //         'Authorization': this.token,
-                //     },
-                //
-                // }
-                // let url = this.urlBase+'/'+this.$store.state.item.id
-                //
-                // axios.post(url, formData, config)
-                //     .then(response => {
-                //         this.transacaoStatus = 'adicionado'
-                //         this.transacaoDetalhes = {
-                //             mensagem: 'ID do registro: ' + response.data.id
-                //         }
-                //         imagemInputEditar.value = ''
-                //         this.carregarLista()
-                //         console.log(this.method)
-                //         console.log(Object.fromEntries(formData))
-                //     })
-                //     .catch(errors => {
-                //         this.transacaoStatus = 'erro'
-                //         this.transacaoDetalhes = {
-                //             mensagem: errors.response.data.message,
-                //             dados: errors.response.data.errors,
-                //         }
-                //         console.log(errors.response)
-                //         console.log(this.method)
-                //         //console.log(this.transacaoDetalhes)
-                //     })
             },
             deletar() {
                 let confirmacao = confirm('Tem certeza que deseja remover esse registro ?')

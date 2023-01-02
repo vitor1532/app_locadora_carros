@@ -51,6 +51,23 @@ Vue.component('paginate-component', require('./components/PaginateComponent.vue'
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.filter('formatDataTempo', function(d) {
+    if(!d) return ''
+
+    d = d.split('T')
+
+    let data = d[0]
+    data = data.split('-')
+    data = data[2]+'/'+data[1]+'/'+data[0]
+
+    let tempo = d[1]
+    tempo = tempo.split('.')
+    tempo = tempo[0].split(':')
+    tempo = tempo[0]+':'+tempo[1]
+
+    return data + ', ' + tempo
+})
+
 const app = new Vue({
     el: '#app',
     store
