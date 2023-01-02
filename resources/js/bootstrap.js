@@ -39,3 +39,42 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/*
+* Interceptar os requests da aplicação
+* */
+axios.interceptors.request.use(
+    config => {
+        //definir os parametros de accept e authorization para todas as requisições
+        config.headers.Accept = 'application/json'
+
+        //recuperando token JWT
+        let token = document.cookie.split(';').find(i => {
+            return i.includes('token=')
+        })
+        token = token.split('=')[1]
+        token = 'Bearer ' + token
+
+        //definindo token no header
+        config.headers.Authorization = token
+
+        console.log('Interceptando a requisição antes do envio. ', config)
+        return config
+    },
+    error => {
+        console.log('Erro na requisição: ', error)
+        return Promise.reject(error)
+    }
+);
+
+/* interceptar os responses da aplicação */
+axios.interceptors.response.use(
+    response => {
+        console.log('Interceptando a resposta antes da aplicação. ', response)
+        return response
+    },
+    error => {
+        console.log('Erro na resposta: ', error)
+        return Promise.reject(error)
+    }
+)

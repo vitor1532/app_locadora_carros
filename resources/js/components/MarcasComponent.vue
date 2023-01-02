@@ -172,21 +172,8 @@
     import ModalComponent from "./ModalComponent.vue";
 
     export default {
-        
+
         name: "MarcasComponent",
-        computed: {
-            token() {
-                let token = document.cookie.split(';').find(i => {
-                    return i.includes('token=')
-                })
-
-                token = token.split('=')[1]
-
-                token = 'Bearer ' + token
-
-                return token
-            }
-        },
         components: {InputContainerComponent, TableComponent, ModalComponent, CardComponent},
         data() {
             return {
@@ -238,16 +225,9 @@
             },
             carregarLista() {
 
-                let config = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': this.token
-                    }
-                }
-
                 let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
 
-                axios.get(url, config)
+                axios.get(url)
                     .then(response => {
                         this.marcas = response.data
                     })
@@ -267,8 +247,6 @@
                 let config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Accept': 'application/json',
-                        'Authorization': this.token
                     }
                 }
 
@@ -304,8 +282,6 @@
                 let config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Accept': 'application/json',
-                        'Authorization': this.token,
                     },
 
                 }
@@ -339,8 +315,6 @@
                 let config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Accept': 'application/json',
-                        'Authorization': this.token,
                     },
                 }
                 let url = this.urlBase + '/' + this.$store.state.item.id
