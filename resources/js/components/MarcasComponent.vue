@@ -68,13 +68,13 @@
 
             <template v-slot:conteudo>
                 <div class="form-group">
-                    <input-container-component id="marcaInput" titulo="Nome" fooHelp="marcaInputHelp" descricao="Obrigatório.">
+                    <input-container-component id="marcaInput" titulo="Nome" foo-help="marcaInputHelp" descricao="Obrigatório.">
                         <input type="text" class="form-control" id="marcaInput" aria-describedby="marcaInputHelp" placeholder="Informe o nome da marca" v-model="nomeMarca">
                     </input-container-component>
                 </div>
 
                 <div class="form-group">
-                    <input-container-component id="imagemInput" titulo="Imagem" fooHelp="imagemHelp" descricao="Obrigatório.">
+                    <input-container-component id="imagemInput" titulo="Imagem" foo-help="imagemHelp" descricao="Obrigatório.">
                         <input type="file" class="form-control-image" id="imagemInput" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
                     </input-container-component>
                 </div>
@@ -117,16 +117,16 @@
         <!-- Inicio do Modal de Edição de marca -->
         <modal-component id="modalEditarMarca" title="Editar Marca">
             <template v-slot:alertas>
-                <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao tentar editar a marca" v-if="transacaoStatus == 'adicionado'"></alert-component>
-                <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar editar a marca" v-if="transacaoStatus == 'erro'"></alert-component>
+                <alert-component tipo="success" titulo="Sucesso ao editar a marca" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
+                <alert-component tipo="danger" titulo="Erro ao tentar editar a marca" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'erro'"></alert-component>
             </template>
 
             <template v-slot:conteudo>
                 <strong>{{$store.state.item.nome}}</strong><br>
-                <input-container-component titulo="Nome">
+                <input-container-component titulo="Nome" id="nomeInputEditar" foo-help="imagemEditarHelp">
                     <input type="text" class="form-control" v-model="$store.state.item.nome"/>
                 </input-container-component>
-                <input-container-component id="imagemInputEditar" titulo="Imagem" fooHelp="imagemHelp" descricao="Obrigatório.">
+                <input-container-component id="imagemInputEditar" titulo="Imagem" foo-help="imagemEditarHelp" descricao="Obrigatório.">
                     <input type="file" class="form-control-image" id="imagemInputEditar" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
                 </input-container-component>
             </template>
@@ -198,7 +198,6 @@
                 transacaoDetalhes: {},
                 marcas: { data: [] },
                 busca: { id:'', nome: '' },
-                method: '',
             }
         },
         methods: {
@@ -292,22 +291,14 @@
                     })
             },
             atualizar() {
+
                 let formData = new FormData();
+                formData.append('_method', 'patch')
                 formData.append('nome', this.$store.state.item.nome)
 
-                if(formData.get('nome') === '' || formData.get('imagem') === 'undefined') {
-                    this.method = 'PATCH'
-                    if(this.arquivoImagem[0]) {
-                        formData.append('imagem', this.arquivoImagem[0])
-                    }
-
-                } else {
-                    this.method = 'PUT'
-                    formData.append('nome', this.$store.state.item.nome)
+                if(this.arquivoImagem[0]) {
                     formData.append('imagem', this.arquivoImagem[0])
                 }
-
-                formData.append("_method", this.method)
 
                 let config = {
                     headers: {
@@ -318,26 +309,70 @@
 
                 }
                 let url = this.urlBase+'/'+this.$store.state.item.id
-                //console.log(Object.fromEntries(formData))
+
                 axios.post(url, formData, config)
                     .then(response => {
-                        this.transacaoStatus = 'adicionado'
-                        this.transacaoDetalhes = {
-                            mensagem: 'ID do registro: ' + response.data.id
-                        }
+                        console.log('Atualizado', response)
                         imagemInputEditar.value = ''
+                        this.$store.state.transacao.status = 'sucesso'
+                        this.$store.state.transacao.mensagem = 'Registro atualizado com sucesso'
                         this.carregarLista()
-                        console.log(this.method)
                     })
                     .catch(errors => {
-                        this.transacaoStatus = 'erro'
-                        this.transacaoDetalhes = {
-                            mensagem: errors.response.data.message,
-                            dados: errors.response.data.errors,
-                        }
-                        console.log(this.method)
-                        //console.log(this.transacaoDetalhes)
+                        console.log(errors.response)
+                        this.$store.state.transacao.status = 'erro'
+                        this.$store.state.transacao.mensagem = errors.response.data.message
+                        this.$store.state.transacao.dados = errors.response.data.errors
+
                     })
+                // let formData = new FormData();
+                // formData.append('nome', this.$store.state.item.nome)
+                //
+                // if(formData.get('nome') === '' || formData.get('imagem') === 'undefined') {
+                //     this.method = 'PATCH'
+                //     if(this.arquivoImagem[0]) {
+                //         formData.append('imagem', this.arquivoImagem[0])
+                //     }
+                //
+                // } else {
+                //     this.method = 'PUT'
+                //     formData.append('nome', this.$store.state.item.nome)
+                //     formData.append('imagem', this.arquivoImagem[0])
+                // }
+                //
+                // formData.append("_method", this.method)
+                //
+                // let config = {
+                //     headers: {
+                //         'Content-Type': 'multipart/form-data',
+                //         'Accept': 'application/json',
+                //         'Authorization': this.token,
+                //     },
+                //
+                // }
+                // let url = this.urlBase+'/'+this.$store.state.item.id
+                //
+                // axios.post(url, formData, config)
+                //     .then(response => {
+                //         this.transacaoStatus = 'adicionado'
+                //         this.transacaoDetalhes = {
+                //             mensagem: 'ID do registro: ' + response.data.id
+                //         }
+                //         imagemInputEditar.value = ''
+                //         this.carregarLista()
+                //         console.log(this.method)
+                //         console.log(Object.fromEntries(formData))
+                //     })
+                //     .catch(errors => {
+                //         this.transacaoStatus = 'erro'
+                //         this.transacaoDetalhes = {
+                //             mensagem: errors.response.data.message,
+                //             dados: errors.response.data.errors,
+                //         }
+                //         console.log(errors.response)
+                //         console.log(this.method)
+                //         //console.log(this.transacaoDetalhes)
+                //     })
             },
             deletar() {
                 let confirmacao = confirm('Tem certeza que deseja remover esse registro ?')

@@ -20,7 +20,7 @@ const store = new Vuex.Store({
     state: {
         teste:"teste vuex",
         item: {},
-        transacao: {status: '', mensagem: ''}
+        transacao: {status: '', mensagem: '', dados: ''}
     }
 });
 
