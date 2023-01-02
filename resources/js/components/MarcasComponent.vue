@@ -117,6 +117,8 @@
         <!-- Inicio do Modal de Edição de marca -->
         <modal-component id="modalEditarMarca" title="Editar Marca">
             <template v-slot:alertas>
+                <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao tentar editar a marca" v-if="transacaoStatus == 'adicionado'"></alert-component>
+                <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar editar a marca" v-if="transacaoStatus == 'erro'"></alert-component>
             </template>
 
             <template v-slot:conteudo>
@@ -270,26 +272,49 @@
                 formData.append('nome', this.nomeMarca)
                 formData.append('imagem', this.arquivoImagem[0])
 
-                if(!formData.has('nome') || !formData.has('imagem')) {
+                if(formData.get('nome') === '' || formData.get('imagem') === 'undefined') {
                     this.method = 'PATCH'
+                    if(formData.get('imagem') === 'undefined') {
+                        formData.set('imagem', this.$store.state.item.imagem)
+                    }
+                    if(formData.get('nome') === '') {
+                        formData.set('nome', this.$store.state.item.nome)
+                    }
                 } else {
                     this.method = 'PUT'
+                    formData.set('nome', this.nomeMarca)
+                    formData.set('imagem', this.arquivoImagem[0])
                 }
+
+                formData.append("_method", this.method)
 
                 let config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'Accept': 'application/json',
                         'Authorization': this.token,
-                        '_method': this.method,
-                    }
+                    },
+
                 }
-
                 let url = this.urlBase+'/'+this.$store.state.item.id
+                //console.log(Object.fromEntries(formData))
+                axios.post(url, formData, config)
+                    .then(response => {
+                        this.transacaoStatus = 'adicionado'
+                        this.transacaoDetalhes = {
+                            mensagem: 'ID do registro: ' + response.data.id
+                        }
+                    })
+                    .catch(errors => {
+                        this.transacaoStatus = 'erro'
+                        this.transacaoDetalhes = {
+                            mensagem: errors.response.data.message,
+                            dados: errors.response.data.errors
+                        }
+                    })
+            },
+            deletar() {
 
-                console.log(url)
-
-                console.log(this.nomeMarca);
             }
 
         },
