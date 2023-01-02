@@ -146,7 +146,12 @@
             </template>
 
             <template v-slot:conteudo>
-                <h4>Tem certeza que quer remover a marca "{{$store.state.item.nome}}" ?</h4>
+                <input-container-component titulo="ID">
+                    <input type="text" class="form-control" :value="$store.state.item.id" disabled/>
+                </input-container-component>
+                <input-container-component titulo="Nome">
+                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled/>
+                </input-container-component>
             </template>
 
             <template v-slot:footer>
@@ -332,6 +337,14 @@
                     })
             },
             deletar() {
+                let confirmacao = confirm('Tem certeza que deseja remover esse registro ?')
+
+                if(!confirmacao) {
+                    return false;
+                }
+
+                let formData = new FormData()
+                formData.append("_method", "delete")
 
                 let config = {
                     headers: {
@@ -342,7 +355,7 @@
                 }
                 let url = this.urlBase + '/' + this.$store.state.item.id
 
-                axios.delete(url, config)
+                axios.post(url, formData, config)
                     .then(response => {
                         this.transacaoStatus = 'removido'
                         this.transacaoDetalhes = {
