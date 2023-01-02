@@ -141,11 +141,11 @@
         <!-- Início do Modal de deletar Marca -->
         <modal-component id="modalRemoverMarca" title="Remover Marca">
             <template v-slot:alertas>
-                <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao remover a marca" v-if="transacaoStatus == 'removido'"></alert-component>
-                <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar remover a marca" v-if="transacaoStatus == 'erro'"></alert-component>
+                <alert-component tipo="success" titulo="Sucesso ao remover a marca" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
+                <alert-component tipo="danger" titulo="Erro ao tentar remover a marca" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'erro'"></alert-component>
             </template>
 
-            <template v-slot:conteudo>
+            <template v-slot:conteudo v-if="$store.state.transacao.status != 'sucesso'">
                 <input-container-component titulo="ID">
                     <input type="text" class="form-control" :value="$store.state.item.id" disabled/>
                 </input-container-component>
@@ -156,7 +156,7 @@
 
             <template v-slot:footer>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-                <button type="submit" class="btn btn-danger" @click="deletar()">Remover marca</button>
+                <button type="submit" class="btn btn-danger" @click="deletar()" v-if="$store.state.transacao.status != 'sucesso'">Remover marca</button>
             </template>
         </modal-component>
         <!-- Fim do Modal de deletar marca -->
@@ -272,7 +272,7 @@
                     }
                 }
 
-                console.log(this.arquivoImagem[0], this.nomeMarca, config, formData, this.urlBase);
+                //console.log(this.arquivoImagem[0], this.nomeMarca, config, formData, this.urlBase);
 
                 axios.post(this.urlBase, formData, config)
                     .then(response => {
@@ -280,6 +280,7 @@
                         this.transacaoDetalhes = {
                             mensagem: 'ID do registro: ' + response.data.id
                         }
+                        this.carregarLista()
                     })
                     .catch(errors => {
                         this.transacaoStatus = 'erro'
@@ -327,6 +328,7 @@
                         this.transacaoDetalhes = {
                             mensagem: 'ID do registro: ' + response.data.id
                         }
+                        this.carregarLista()
                     })
                     .catch(errors => {
                         this.transacaoStatus = 'erro'
@@ -334,6 +336,7 @@
                             mensagem: errors.response.data.message,
                             dados: errors.response.data.errors
                         }
+                        //console.log(this.transacaoDetalhes)
                     })
             },
             deletar() {
@@ -357,17 +360,13 @@
 
                 axios.post(url, formData, config)
                     .then(response => {
-                        this.transacaoStatus = 'removido'
-                        this.transacaoDetalhes = {
-                            mensagem: 'ID do registro: ' + response.data.id + ' removido com sucesso'
-                        }
+                        this.$store.state.transacao.status = 'sucesso'
+                        this.$store.state.transacao.mensagem = response.data.msg
+                        this.carregarLista()
                     })
                     .catch(errors => {
-                        this.transacaoStatus = 'erro'
-                        this.transacaoDetalhes = {
-                            mensagem: errors.response.data.message,
-                            dados: errors.response.data.errors
-                        }
+                        this.$store.state.transacao.status = 'erro'
+                        this.$store.state.transacao.mensagem = errors.response.data.erro
                     })
             }
         },
