@@ -54,7 +54,8 @@ export default {
     },
     methods: {
         setStore(obj) {
-            //console.log(obj)
+            this.$store.state.transacao.status = ''
+            this.$store.state.transacao.mensagem = ''
             this.$store.state.item = obj
         },
     }

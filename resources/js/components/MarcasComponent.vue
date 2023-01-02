@@ -122,12 +122,12 @@
             </template>
 
             <template v-slot:conteudo>
+                <strong>{{$store.state.item.nome}}</strong><br>
                 <input-container-component titulo="Nome">
-                    Nome Autal: <strong>{{$store.state.item.nome}}</strong>
-                    <input type="text" class="form-control" v-model="nomeMarca" :placeholder="$store.state.item.nome"/>
+                    <input type="text" class="form-control" v-model="$store.state.item.nome"/>
                 </input-container-component>
-                <input-container-component id="imagemInput" titulo="Imagem" fooHelp="imagemHelp" descricao="Obrigatório.">
-                    <input type="file" class="form-control-image" id="imagemInput" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
+                <input-container-component id="imagemInputEditar" titulo="Imagem" fooHelp="imagemHelp" descricao="Obrigatório.">
+                    <input type="file" class="form-control-image" id="imagemInputEditar" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
                 </input-container-component>
             </template>
 
@@ -293,21 +293,18 @@
             },
             atualizar() {
                 let formData = new FormData();
-                formData.append('nome', this.nomeMarca)
-                formData.append('imagem', this.arquivoImagem[0])
+                formData.append('nome', this.$store.state.item.nome)
 
                 if(formData.get('nome') === '' || formData.get('imagem') === 'undefined') {
                     this.method = 'PATCH'
-                    if(formData.get('imagem') === 'undefined') {
-                        formData.set('imagem', this.$store.state.item.imagem)
+                    if(this.arquivoImagem[0]) {
+                        formData.append('imagem', this.arquivoImagem[0])
                     }
-                    if(formData.get('nome') === '') {
-                        formData.set('nome', this.$store.state.item.nome)
-                    }
+
                 } else {
                     this.method = 'PUT'
-                    formData.set('nome', this.nomeMarca)
-                    formData.set('imagem', this.arquivoImagem[0])
+                    formData.append('nome', this.$store.state.item.nome)
+                    formData.append('imagem', this.arquivoImagem[0])
                 }
 
                 formData.append("_method", this.method)
@@ -328,14 +325,17 @@
                         this.transacaoDetalhes = {
                             mensagem: 'ID do registro: ' + response.data.id
                         }
+                        imagemInputEditar.value = ''
                         this.carregarLista()
+                        console.log(this.method)
                     })
                     .catch(errors => {
                         this.transacaoStatus = 'erro'
                         this.transacaoDetalhes = {
                             mensagem: errors.response.data.message,
-                            dados: errors.response.data.errors
+                            dados: errors.response.data.errors,
                         }
+                        console.log(this.method)
                         //console.log(this.transacaoDetalhes)
                     })
             },
