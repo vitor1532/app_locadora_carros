@@ -49,7 +49,7 @@
                                     <a class="nav-link dropdown-item" href="#">Carros</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="nav-link dropdown-item" href="{{ route('marcas') }}">Marcas</a>
-                                    <a class="nav-link dropdown-item" href="#">Modelos</a>
+                                    <a class="nav-link dropdown-item" href="{{ route('modelos') }}">Modelos</a>
                                 </div>
                             </li>
                         @endauth

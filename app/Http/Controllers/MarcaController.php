@@ -48,6 +48,9 @@ class MarcaController extends Controller
             //$marcas = $marcas->selectRaw($attr)->get();
 
         }
+        if($request->has('get')) {
+            return response()->json($marcaRepository->getResult(), 200);
+        }
 
         return response()->json($marcaRepository->getResultPaginado(4), 200);
     }

@@ -27,3 +27,8 @@ Route::get('/marcas', function() {
     return view('app.marcas');
 })->name('marcas')->middleware('auth');
 
+// Rotas /modelos
+Route::get('/modelos', function () {
+    return view('app.modelos');
+})->name('modelos')->middleware('auth');
+
