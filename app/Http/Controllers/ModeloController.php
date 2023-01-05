@@ -75,6 +75,9 @@ class ModeloController extends Controller
         $image = $request->file('imagem');
         $imagem_urn = $image->store('imagens/modelos', 'public');
 
+        //$air_bag = filter_var($request->air_bag, FILTER_VALIDATE_BOOLEAN);
+        //$abs = filter_var($request->air_bag, FILTER_VALIDATE_BOOLEAN);
+
         $modelo = $this->modelo->create([
             'marca_id' => $request->marca_id,
             'nome' => $request->nome,

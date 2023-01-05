@@ -71,10 +71,9 @@
                 <div class="form-group">
                     <input-container-component  id="marcaInput" titulo="Nome da Marca" foo-help="marcaInputHelp" descricao="Obrigatório.">
                         <select class="custom-select mr-sm-2" id="portasInput" v-model="marcaModelo">
-                            <option selected>Nome da marca</option>
+                            <option selected disabled>Nome da marca</option>
                             <option v-for="marca in marcas" :value="marca.id">{{ marca.nome }}</option>
                         </select>
-                        marca: {{ marcaModelo }}
                     </input-container-component>
                 </div>
 
@@ -103,16 +102,18 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="airBagsInput">
-                        <label class="custom-control-label" for="airBagsInput">Possui AirBags ?</label>
-                    </div>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="airBagsInput" v-model="airBagModelo">
+                            <label class="custom-control-label" for="airBagsInput">Possui AirBags ?</label>
+                            {{airBagModelo}}
+                        </div>
                 </div>
 
                 <div class="form-group">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="absInput">
+                        <input type="checkbox" class="custom-control-input" id="absInput" v-model="absModelo" v-bind:value="absModelo">
                         <label class="custom-control-label" for="absInput">Possui ABS ?</label>
+                        {{absModelo}}
                     </div>
                 </div>
             </template>
@@ -148,8 +149,8 @@ export default {
             nomeModelo: '',
             portasModelo: '',
             lugaresModelo: '',
-            airBagModelo: '',
-            absModelo: '',
+            airBagModelo: false,
+            absModelo: false,
             arquivoImagem: [],
             transacaoStatus: '',
             transacaoDetalhes: {},
@@ -192,10 +193,17 @@ export default {
         },
         salvar() {
 
+            this.airBagModelo = Number(this.airBagModelo)
+            this.absModelo = Number(this.absModelo)
+
             let formData = new FormData();
             formData.append('marca_id', this.marcaModelo)
             formData.append('nome', this.nomeModelo)
             formData.append('imagem', this.arquivoImagem[0])
+            formData.append('numero_portas', this.portasModelo)
+            formData.append('lugares', this.lugaresModelo)
+            formData.append('air_bag', this.airBagModelo)
+            formData.append('abs', this.absModelo)
 
             let config = {
                 headers: {
@@ -203,11 +211,9 @@ export default {
                 }
             }
 
-            //console.log(this.marcaModelo)
+            console.log(Object.fromEntries(formData))
 
-            //console.log(this.arquivoImagem[0], this.nomeMarca, config, formData, this.urlBase);
-
-            /*axios.post(this.urlBase, formData, config)
+            axios.post(this.urlBase, formData, config)
                 .then(response => {
                     this.transacaoStatus = 'adicionado'
                     this.transacaoDetalhes = {
@@ -222,7 +228,7 @@ export default {
                         dados: errors.response.data.errors
                     }
                     //errors.response.data.errors
-                })*/
+                })
         },
     },
     mouted() {
