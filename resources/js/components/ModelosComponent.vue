@@ -115,7 +115,6 @@
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="airBagsInput" v-model="airBagModelo">
                             <label class="custom-control-label" for="airBagsInput">Possui AirBags ?</label>
-                            {{airBagModelo}}
                         </div>
                 </div>
 
@@ -123,7 +122,6 @@
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="absInput" v-model="absModelo" v-bind:value="absModelo">
                         <label class="custom-control-label" for="absInput">Possui ABS ?</label>
-                        {{absModelo}}
                     </div>
                 </div>
             </template>
@@ -196,6 +194,63 @@
 
         </modal-component>
         <!-- Fim do Modal de visualizar marca -->
+
+        <!-- Modal de edição de marca -->
+        <modal-component id="modalEditarModelos" title="Criar Modelos">
+
+            <template v-slot:alertas>
+                <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao tentar cadastrar o modelo" v-if="transacaoStatus == 'adicionado'"></alert-component>
+                <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar o modelo" v-if="transacaoStatus == 'erro'"></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+
+                <div class="form-group">
+                    <input-container-component id="modeloInput" titulo="Nome" foo-help="modeloInputHelp" descricao="Obrigatório.">
+                        <input type="text" class="form-control" id="modeloInput" aria-describedby="modeloInputHelp" placeholder="Informe o nome do modelo" v-model="$store.state.item.nome">
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component id="imagemInputEditar" titulo="Imagem" foo-help="imagemHelp" descricao="Obrigatório.">
+                        <input type="file" class="form-control-image" id="imagemInputEditar" placeholder="Selecione uma imagem no formato PNG" @change="carregarImagem($event)">
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component id="portasInput" titulo="Número de portas" foo-help="portasInputHelp" descricao="Obrigatório.">
+                        <input type="number" class="form-control" id="portasInput" aria-describedby="portasInputHelp" placeholder="Informe a quantidade de portas do modelo" v-model="$store.state.item.numero_portas">
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component id="lugaresInput" titulo="Número de lugares" foo-help="lugaresInputHelp" descricao="Obrigatório.">
+                        <input type="number" class="form-control" id="lugaresInput" aria-describedby="lugaresInputHelp" placeholder="Informe a quantidade de lugares do modelo" v-model="$store.state.item.lugares">
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="airBagsInput" v-model="$store.state.item.air_bag">
+                        <label class="custom-control-label" for="airBagsInput">Possui AirBags ?</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="absInput" v-model="$store.state.item.abs">
+                        <label class="custom-control-label" for="absInput">Possui ABS ?</label>
+                    </div>
+                </div>
+            </template>
+
+            <template v-slot:footer>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <button type="submit" class="btn btn-primary" @click="salvar()">Inserir Modelo</button>
+            </template>
+
+        </modal-component>
+        <!-- Fim do Modal de edição de marca -->
 
         <!-- Início do Modal de deletar modelo -->
         <modal-component id="modalRemoverModelos" title="Remover Marca">
