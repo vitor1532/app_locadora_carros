@@ -13,7 +13,7 @@
                     <span v-if="titulos[chaveValor].tipo == 'text'">{{valor}}</span>
                     <span v-if="titulos[chaveValor].tipo == 'data'">{{valor | formatDataTempo}}</span>
                     <span v-if="titulos[chaveValor].tipo == 'img'">
-                        <img :src="'/storage/'+valor" width="30" height="30">
+                        <img :src="'/storage/'+valor" width="80" height="50">
                     </span>
                 </td>
                 <td v-if="visualizar.visivel || atualizar.visivel || remover.visivel">
