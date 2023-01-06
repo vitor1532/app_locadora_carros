@@ -170,6 +170,7 @@
     import TableComponent from "./TableComponent.vue";
     import CardComponent from "./CardComponent.vue";
     import ModalComponent from "./ModalComponent.vue";
+    import KonamiCode from 'vue-konami-code';
 
     export default {
 
