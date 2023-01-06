@@ -58,7 +58,7 @@
                             </div>
                             <!-- Button trigger modal -->
                             <div class="col">
-                                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" data-toggle="modal" data-target="#criarModelosModal" @click="getMarcas()">Adicionar</button>
+                                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" data-toggle="modal" data-target="#criarModelosModal">Adicionar</button>
                             </div>
                         </div>
                     </template>
@@ -196,14 +196,22 @@
         <!-- Fim do Modal de visualizar marca -->
 
         <!-- Modal de edição de marca -->
-        <modal-component id="modalEditarModelos" title="Criar Modelos">
+        <modal-component id="modalEditarModelos" title="Editar Modelo">
 
             <template v-slot:alertas>
-                <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao tentar cadastrar o modelo" v-if="transacaoStatus == 'adicionado'"></alert-component>
-                <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar o modelo" v-if="transacaoStatus == 'erro'"></alert-component>
+                <alert-component tipo="success" titulo="Sucesso ao editar a marca" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
+                <alert-component tipo="danger" titulo="Erro ao tentar editar a marca" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'erro'"></alert-component>
             </template>
 
             <template v-slot:conteudo>
+                <div class="form-group">
+                    <input-container-component  id="marcaInput" titulo="Nome da Marca" foo-help="marcaInputHelp" descricao="Obrigatório.">
+                        <select class="custom-select mr-sm-2" id="portasInput" v-model="marcaModelo">
+                            <option selected disabled>Nome da marca</option>
+                            <option v-for="marca in marcas" :value="marca.id">{{ marca.nome }}</option>
+                        </select>
+                    </input-container-component>
+                </div>
 
                 <div class="form-group">
                     <input-container-component id="modeloInput" titulo="Nome" foo-help="modeloInputHelp" descricao="Obrigatório.">
@@ -231,14 +239,14 @@
 
                 <div class="form-group">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="airBagsInput" v-model="$store.state.item.air_bag">
+                        <input type="checkbox" class="custom-control-input" id="airBagsInput" v-model="airBagModelo">
                         <label class="custom-control-label" for="airBagsInput">Possui AirBags ?</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="absInput" v-model="$store.state.item.abs">
+                        <input type="checkbox" class="custom-control-input" id="absInput" v-model="absModelo">
                         <label class="custom-control-label" for="absInput">Possui ABS ?</label>
                     </div>
                 </div>
@@ -246,7 +254,7 @@
 
             <template v-slot:footer>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-                <button type="submit" class="btn btn-primary" @click="salvar()">Inserir Modelo</button>
+                <button type="submit" class="btn btn-primary" @click="atualizar()">Atualizar Modelo</button>
             </template>
 
         </modal-component>
@@ -309,6 +317,45 @@ export default {
         }
     },
     methods: {
+        atualizar() {
+            let formData = new FormData();
+            formData.append('_method', 'patch')
+            formData.append('marca_id', this.marcaModelo)
+            formData.append('nome', this.$store.state.item.nome)
+            formData.append('numero_portas', this.$store.state.item.numero_portas)
+            formData.append('lugares', this.$store.state.item.lugares)
+            formData.append('air_bag', this.$store.state.item.air_bag)
+            formData.append('abs', this.$store.state.item.abs)
+
+            if(this.arquivoImagem[0]) {
+                formData.append('imagem', this.arquivoImagem[0])
+            }
+
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+
+            }
+            let url = this.urlBase+'/'+this.$store.state.item.id
+
+            axios.post(url, formData, config)
+                .then(response => {
+                    console.log('Atualizado', response)
+                    imagemInputEditar.value = ''
+                    this.$store.state.transacao.status = 'sucesso'
+                    this.$store.state.transacao.mensagem = 'Registro atualizado com sucesso'
+                    this.carregarLista()
+                })
+                .catch(errors => {
+                    console.log(errors.response)
+                    this.$store.state.transacao.status = 'erro'
+                    this.$store.state.transacao.mensagem = errors.response.data.message
+                    this.$store.state.transacao.dados = errors.response.data.errors
+                })
+            console.log('url: '+url)
+            console.log(Object.fromEntries(formData))
+        },
         getMarcas() {
             axios.get('http://127.0.0.1:8000/api/v1/marca?get')
                 .then(response => {
@@ -360,7 +407,7 @@ export default {
                 }
             }
 
-            console.log(Object.fromEntries(formData))
+            //console.log(Object.fromEntries(formData))
 
             axios.post(this.urlBase, formData, config)
                 .then(response => {
@@ -410,6 +457,7 @@ export default {
     },
     mounted() {
         this.carregarLista()
+        this.getMarcas()
     }
 }
 
