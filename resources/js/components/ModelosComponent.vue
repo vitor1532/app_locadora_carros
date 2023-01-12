@@ -58,7 +58,7 @@
                             </div>
                             <!-- Button trigger modal -->
                             <div class="col">
-                                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" data-toggle="modal" data-target="#criarModelosModal">Adicionar</button>
+                                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" data-toggle="modal" data-target="#criarModelosModal" @click="dismissForm()">Adicionar</button>
                             </div>
                         </div>
                     </template>
@@ -317,6 +317,17 @@ export default {
         }
     },
     methods: {
+        dismissForm() {
+            this.marcaModelo = ''
+            this.nomeModelo = ''
+            this.portasModelo = ''
+            this.lugaresModelo = ''
+            this.airBagModelo = false
+            this.absModelo = false
+            this.transacaoStatus = ''
+            this.transacaoDetalhes = {}
+
+        },
         atualizar() {
             let formData = new FormData();
             formData.append('_method', 'patch')
