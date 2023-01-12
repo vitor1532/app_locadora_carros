@@ -55,6 +55,7 @@ Vue.component('card-component', require('./components/CardComponent.vue').defaul
 Vue.component('alert-component', require('./components/AlertComponent.vue').default);
 Vue.component('paginate-component', require('./components/PaginateComponent.vue').default);
 Vue.component('modelos-component', require('./components/ModelosComponent.vue').default);
+Vue.component('carros-component', require('./components/CarrosComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

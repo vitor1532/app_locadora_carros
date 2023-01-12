@@ -10,18 +10,54 @@
                         <div class="form-row">
                             <div class="col mb-3">
                                 <input-container-component titulo="ID" id="inputId" foo-help = "idHelp" descricao = "Opcional.">
-                                    <input type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="Informe o ID do modelo">
+                                    <input type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="Informe o ID do modelo" v-model="busca.id">
                                 </input-container-component>
                             </div>
                             <div class="col mb-3">
                                 <input-container-component titulo="Nome" id="inputNome" foo-help = "nomeHelp" descricao = "Opcional.">
-                                    <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Informe o nome do modelo">
+                                    <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Informe o nome do modelo" v-model="busca.nome">
                                 </input-container-component>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input-container-component  id="marcaInput" titulo="Nome da Marca" foo-help="marcaInputHelp" descricao="Obrigatório.">
+                                <select class="custom-select mr-sm-2" id="portasInput" v-model="busca.marca_id">
+                                    <option selected value="">Nome da marca</option>
+                                    <option v-for="marca in marcas" :value="marca.id">{{ marca.nome }}</option>
+                                </select>
+                            </input-container-component>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col mb-3">
+                                <input-container-component id="lugaresInput" titulo="Número de lugares" foo-help="lugaresInputHelp" descricao="Obrigatório.">
+                                    <input type="number" class="form-control" id="lugaresInput" aria-describedby="lugaresInputHelp" placeholder="Informe a quantidade de lugares do modelo" v-model="busca.lugares">
+                                </input-container-component>
+                            </div>
+                            <div class="col mb-3">
+                                <input-container-component id="portasInput" titulo="Número de portas" foo-help="portasInputHelp" descricao="Obrigatório.">
+                                    <input type="number" class="form-control" id="portasInput" aria-describedby="portasInputHelp" placeholder="Informe a quantidade de portas do modelo" v-model="busca.numero_portas">
+                                </input-container-component>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col mb-3">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="airBagsInput" v-model="busca.air_bag">
+                                    <label class="custom-control-label" for="airBagsInput">Possui AirBags ?</label>
+                                </div>
+                            </div>
+                            <div class="col mb-3">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="absInput" v-model="busca.abs" v-bind:value="busca.abs">
+                                    <label class="custom-control-label" for="absInput">Possui ABS ?</label>
+                                </div>
                             </div>
                         </div>
                     </template>
                     <template v-slot:rodape>
-                        <button type="submit" class="btn btn-primary btn-sm float-right" name="btn">Pesquisar</button>
+                        <button type="submit" class="btn btn-primary btn-sm float-right" name="btn" @click="pesquisar()">Pesquisar</button>
                     </template>
                 </card-component>
                 <!-- Fim do card de busca -->
@@ -312,11 +348,42 @@ export default {
             transacaoStatus: '',
             transacaoDetalhes: {},
             modelos: { data: [] },
-            busca: { id:'', nome: '' },
+            busca: { id:'', nome: '', marca_id: '', lugares: '', numero_portas:'', air_bag: false, abs: false },
             marcas: { data: [] },
         }
     },
     methods: {
+        pesquisar(){
+            //console.log(this.busca)
+
+            let filtro = ''
+
+            for(let chave in this.busca) {
+
+                if(this.busca[chave]) {
+                    if(filtro != '') {
+                        filtro += ';'
+                    }
+                    if(chave === 'nome') {
+                        filtro += chave + ':like:' + this.busca[chave] + '%'
+                    } else if(chave === 'air_bag' && this.busca[chave] === true) {
+                        filtro += chave + ':=:' + 1
+                    } else if(chave === 'abs' && this.busca[chave] === true) {
+                        filtro += chave + ':=:' + 1
+                    } else {
+                        filtro += chave + ':like:' + this.busca[chave]
+                    }
+                }
+            }
+            if(filtro != '') {
+                this.urlPaginacao = 'page=1'
+                this.urlFiltro = '&filtro='+filtro
+            } else {
+                this.urlFiltro = ''
+            }
+
+            this.carregarLista()
+        },
         dismissForm() {
             this.marcaModelo = ''
             this.nomeModelo = ''
@@ -364,8 +431,6 @@ export default {
                     this.$store.state.transacao.mensagem = errors.response.data.message
                     this.$store.state.transacao.dados = errors.response.data.errors
                 })
-            console.log('url: '+url)
-            console.log(Object.fromEntries(formData))
         },
         getMarcas() {
             axios.get('http://127.0.0.1:8000/api/v1/marca?get')
@@ -390,6 +455,8 @@ export default {
             axios.get(url)
                 .then(response => {
                     this.modelos = response.data
+                    console.log('url: '+url)
+                    console.log('busca: '+this.busca.abs)
                 })
                 .catch(errors => {
                     console.log(errors)
