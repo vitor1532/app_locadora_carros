@@ -22,13 +22,22 @@ Auth::routes();
 // Rotas /home
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Rotas /marcas
-Route::get('/marcas', function() {
-    return view('app.marcas');
-})->name('marcas')->middleware('auth');
 
-// Rotas /modelos
-Route::get('/modelos', function () {
-    return view('app.modelos');
-})->name('modelos')->middleware('auth');
+
+Route::middleware('auth')->group(function() {
+    // Rotas /marcas
+    Route::get('/marcas', function() {
+        return view('app.marcas');
+    })->name('marcas');
+
+    // Rotas /modelos
+    Route::get('/modelos', function () {
+        return view('app.modelos');
+    })->name('modelos');
+
+    // Rotas /carros
+    Route::get('/carros', function() {
+        return view('app.carros');
+    })->name('carros');
+});
 

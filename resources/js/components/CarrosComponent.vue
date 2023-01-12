@@ -13,7 +13,7 @@
                             </div>
                             <div class="col mb-3">
                                 <input-container-component titulo="Nome" id="inputNome" foo-help = "nomeHelp" descricao = "Opcional.">
-                                    <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Informe o nome do modelo">
+                                    <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Informe o nome do carro">
                                 </input-container-component>
                             </div>
                         </div>
