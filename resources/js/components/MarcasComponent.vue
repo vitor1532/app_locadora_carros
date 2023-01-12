@@ -49,7 +49,7 @@
                             </div>
                             <!-- Button trigger modal -->
                             <div class="col">
-                                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" data-toggle="modal" data-target="#criarMarcasModal">Adicionar</button>
+                                <button type="button" class="btn btn-primary btn-sm float-right" name="btn" data-toggle="modal" data-target="#criarMarcasModal" @click="dismissForm()">Adicionar</button>
                             </div>
                         </div>
                     </template>
@@ -190,6 +190,12 @@
             }
         },
         methods: {
+            dismissForm() {
+                this.nomeMarca = ''
+                document.getElementById('imagemInput').value = []
+                this.transacaoStatus = ''
+                this.transacaoDetalhes = {}
+            },
             pesquisar(){
                 //console.log(this.busca)
 

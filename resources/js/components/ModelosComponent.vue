@@ -326,7 +326,7 @@ export default {
             this.absModelo = false
             this.transacaoStatus = ''
             this.transacaoDetalhes = {}
-
+            document.getElementById('imagemInput').value = []
         },
         atualizar() {
             let formData = new FormData();
