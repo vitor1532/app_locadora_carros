@@ -181,13 +181,13 @@
 
                 <div class="form-group">
                     <input-container-component id="modeloIdInput" titulo="ID" foo-help="modeloIdInputHelp" descricao="Obrigatório.">
-                        <input type="text" class="form-control" id="modeloIdInput" aria-describedby="modeloIdInputHelp" placeholder="Informe o nome do modelo" :value="$store.state.item.id" disabled>
+                        <input type="text" class="form-control" id="modeloIdInput" aria-describedby="modeloIdInputHelp" :value="$store.state.item.id" disabled>
                     </input-container-component>
                 </div>
 
                 <div class="form-group">
                     <input-container-component id="modeloInput" titulo="Nome" foo-help="modeloInputHelp" descricao="Obrigatório.">
-                        <input type="text" class="form-control" id="modeloInput" aria-describedby="modeloInputHelp" placeholder="Informe o nome do modelo" :value="$store.state.item.nome" disabled>
+                        <input type="text" class="form-control" id="modeloInput" aria-describedby="modeloInputHelp" :value="$store.state.item.nome" disabled>
                     </input-container-component>
                 </div>
 

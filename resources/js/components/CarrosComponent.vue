@@ -118,6 +118,40 @@
         </modal-component>
         <!-- Fim do Modal de deletar marca -->
 
+        <!-- Modal Visualização de carros -->
+        <modal-component id="modalVisualizarCarros" title="Adicionar Carro">
+            <template v-slot:alertas>
+                <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao tentar cadastrar o modelo" v-if="transacaoStatus == 'adicionado'"></alert-component>
+                <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar o modelo" v-if="transacaoStatus == 'erro'"></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <div class="form-group">
+                    <input-container-component  id="modeloInput" titulo="ID do Carro" foo-help="modeloInputHelp" descricao="Obrigatório.">
+                        <input type="text" class="form-control" id="modeloInput" aria-describedby="modeloInputHelp" :value="$store.state.item.id" disabled>
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component id="placaInput" titulo="Placa" foo-help="placaInputHelp" descricao="Obrigatório.">
+                        <input type="text" class="form-control" id="placaInput" aria-describedby="placaInputHelp" placeholder="Informe o número da placa" :value="$store.state.item.placa" disabled>
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component id="kmInput" titulo="Km" foo-help="kmInputHelp" descricao="Obrigatório.">
+                        <input type="number" class="form-control" id="kmInput" aria-describedby="kmInputHelp" placeholder="Informe os km rodados" :value="$store.state.item.km" disabled>
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:footer>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <button type="submit" class="btn btn-primary" @click="teste()">teste</button>
+            </template>
+        </modal-component>
+        <!-- Fim do Modal Visualização de carros -->
+
     </div>
 
 </template>
@@ -235,6 +269,9 @@ export default {
                     console.log(errors)
                 })
         },
+        teste() {
+            console.log(this.$store.state.item)
+        }
     },
     mounted() {
         this.getModelos()
