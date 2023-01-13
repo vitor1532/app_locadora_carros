@@ -39,7 +39,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Locações</a>
+                                <a class="nav-link" href="{{ route('locacoes') }}">Locações</a>
                             </li>
 
                             <li class="nav-item dropdown">

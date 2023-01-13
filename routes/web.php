@@ -39,5 +39,10 @@ Route::middleware('auth')->group(function() {
     Route::get('/carros', function() {
         return view('app.carros');
     })->name('carros');
+
+    //Rotas /locacoes
+    Route::get('/locacoes', function() {
+        return view('app.locacoes');
+    })->name('locacoes');
 });
 
