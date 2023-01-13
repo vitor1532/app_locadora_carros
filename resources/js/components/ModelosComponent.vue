@@ -77,8 +77,8 @@
                                 imagem: {titulo: 'Imagem', tipo:'img'},
                                 numero_portas: {titulo: 'Portas', tipo:'text'},
                                 lugares: {titulo: 'Lugares', tipo:'text'},
-                                air_bag: {titulo: 'Air Bag', tipo: 'text'},
-                                abs: {titulo: 'ABS', tipo: 'text'},
+                                air_bag: {titulo: 'Air Bag', tipo: 'boolean'},
+                                abs: {titulo: 'ABS', tipo: 'boolean'},
                                 created_at: {titulo: 'Data de Criação', tipo:'data'}
                             }">
                         </table-component>
@@ -408,7 +408,6 @@ export default {
             if(this.arquivoImagem[0]) {
                 formData.append('imagem', this.arquivoImagem[0])
             }
-
             let config = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -455,8 +454,7 @@ export default {
             axios.get(url)
                 .then(response => {
                     this.modelos = response.data
-                    console.log('url: '+url)
-                    console.log('busca: '+this.busca.abs)
+                    console.log('data: '+JSON.stringify(response.data))
                 })
                 .catch(errors => {
                     console.log(errors)

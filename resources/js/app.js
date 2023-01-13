@@ -31,8 +31,6 @@ import KonamiCode from 'vue-konami-code'
 
 Vue.use(KonamiCode, {callback: function () {
         alert('Snake? Snake!? Snaaaake!')
-
-
     }})
 /**
  * The following block of code may be used to automatically register your

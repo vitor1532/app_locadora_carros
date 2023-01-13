@@ -44,6 +44,10 @@ class ModeloController extends Controller
 
         }
 
+        if($request->has('get')) {
+            return response()->json($modeloRepository->getResult(), 200);
+        }
+
         return response()->json($modeloRepository->getResultPaginado(4), 200);
         //dd($request->get('attr'))
 

@@ -44,7 +44,7 @@ class CarroController extends Controller
 
         }
 
-        return response()->json($carroRepository->getResult(), 200);
+        return response()->json($carroRepository->getResultPaginado(4), 200);
     }
 
     /**
