@@ -418,7 +418,6 @@ export default {
 
             axios.post(url, formData, config)
                 .then(response => {
-                    console.log('Atualizado', response)
                     imagemInputEditar.value = ''
                     this.$store.state.transacao.status = 'sucesso'
                     this.$store.state.transacao.mensagem = 'Registro atualizado com sucesso'
@@ -435,7 +434,6 @@ export default {
             axios.get('http://127.0.0.1:8000/api/v1/marca?get')
                 .then(response => {
                     this.marcas = response.data
-                    //console.log(response.data)
                 })
                 .catch(errors => {
                     console.log(errors)
@@ -443,7 +441,6 @@ export default {
         },
         paginacao(l) {
             if(l.url) {
-                //this.urlBase = l.url
                 this.urlPaginacao = l.url.split('?')[1]
                 this.carregarLista()
             }
@@ -454,7 +451,6 @@ export default {
             axios.get(url)
                 .then(response => {
                     this.modelos = response.data
-                    console.log('data: '+JSON.stringify(response.data))
                 })
                 .catch(errors => {
                     console.log(errors)

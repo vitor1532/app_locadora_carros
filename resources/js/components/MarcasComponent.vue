@@ -296,7 +296,6 @@
 
                 axios.post(url, formData, config)
                     .then(response => {
-                        console.log('Atualizado', response)
                         imagemInputEditar.value = ''
                         this.$store.state.transacao.status = 'sucesso'
                         this.$store.state.transacao.mensagem = 'Registro atualizado com sucesso'
