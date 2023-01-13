@@ -58,7 +58,7 @@ axios.interceptors.request.use(
         //definindo token no header
         config.headers.Authorization = token
 
-        console.log('Interceptando a requisição antes do envio. ', config)
+        //console.log('Interceptando a requisição antes do envio. ', config)
         return config
     },
     error => {
@@ -70,7 +70,7 @@ axios.interceptors.request.use(
 /* interceptar os responses da aplicação */
 axios.interceptors.response.use(
     response => {
-        console.log('Interceptando a resposta antes da aplicação. ', response)
+        //console.log('Interceptando a resposta antes da aplicação. ', response)
         return response
     },
     error => {

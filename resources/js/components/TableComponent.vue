@@ -13,6 +13,7 @@
                     <span v-if="titulos[chaveValor].tipo == 'text'">{{valor}}</span>
                     <span v-if="titulos[chaveValor].tipo == 'data'">{{valor | formatDataTempo}}</span>
                     <span v-if="titulos[chaveValor].tipo == 'boolean'">{{valor === 1 ? 'Sim' : 'Não'}}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'relation'">{{valor.nome}}</span>
                     <span v-if="titulos[chaveValor].tipo == 'img'">
                         <img :src="'/storage/'+valor" width="80" height="50">
                     </span>

@@ -8,18 +8,28 @@
                         <div class="form-row">
                             <div class="col mb-3">
                                 <input-container-component titulo="ID" id="inputId" foo-help = "idHelp" descricao = "Opcional.">
-                                    <input type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="Informe o ID do carro">
+                                    <input type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="Informe o ID do carro" v-model="busca.id">
                                 </input-container-component>
                             </div>
                             <div class="col mb-3">
-                                <input-container-component titulo="Nome" id="inputNome" foo-help = "nomeHelp" descricao = "Opcional.">
-                                    <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Informe o nome do carro">
+                                <input-container-component titulo="Placa" id="inputPlaca" foo-help = "placaHelp" descricao = "Opcional.">
+                                    <input type="text" class="form-control" id="inputPlaca" aria-describedby="placaHelp" placeholder="Informe a placa do carro" v-model="busca.placa">
                                 </input-container-component>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <input-container-component  id="modeloInput" titulo="Nome da Marca" foo-help="modeloInputHelp" descricao="Opcional.">
+                                <select class="custom-select mr-sm-2" id="modeloInput" v-model="busca.modelo_id">
+                                    <option selected value="">Nome da marca</option>
+                                    <option v-for="modelo in modelos" :value="modelo.id">{{ modelo.nome }}</option>
+                                </select>
+                            </input-container-component>
+                        </div>
                     </template>
+
                     <template v-slot:rodape>
-                        <button type="submit" class="btn btn-primary btn-sm float-right" name="btn">Pesquisar</button>
+                        <button type="submit" class="btn btn-primary btn-sm float-right" name="btn" @click="pesquisar()">Pesquisar</button>
                     </template>
                 </card-component>
 
@@ -32,9 +42,10 @@
                             :remover="{visivel: true, dataToggle: 'modal', dataTarget: '#modalRemoverCarros'}"
                             :titulos="{
                                 id: {titulo: 'ID', tipo:'text'},
+                                modelo: {titulo: 'Modelo', tipo: 'relation'},
                                 placa: {titulo: 'Placa', tipo: 'text'},
                                 disponivel: {titulo: 'Disponível', tipo: 'boolean'},
-                                km: {titulo: 'Km', tipo: 'text'}
+                                km: {titulo: 'Km', tipo: 'text'},
                             }">
                         </table-component>
                     </template>
@@ -68,7 +79,7 @@
 
                 <template v-slot:conteudo>
                     <div class="form-group">
-                        <input-container-component  id="modeloInput" titulo="Nome da Marca" foo-help="modeloInputHelp" descricao="Obrigatório.">
+                        <input-container-component  id="modeloInput" titulo="Nome da Marca" foo-help="modeloInputHelp">
                             <select class="custom-select mr-sm-2" id="modeloInput" v-model="modeloCarro">
                                 <option v-for="modelo in modelos" :value="modelo.id">{{ modelo.nome }}</option>
                             </select>
@@ -119,7 +130,7 @@
         <!-- Fim do Modal de deletar marca -->
 
         <!-- Modal Visualização de carros -->
-        <modal-component id="modalVisualizarCarros" title="Adicionar Carro">
+        <modal-component id="modalVisualizarCarros" title="Visualizar Carro">
             <template v-slot:alertas>
                 <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao tentar cadastrar o modelo" v-if="transacaoStatus == 'adicionado'"></alert-component>
                 <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar o modelo" v-if="transacaoStatus == 'erro'"></alert-component>
@@ -127,19 +138,19 @@
 
             <template v-slot:conteudo>
                 <div class="form-group">
-                    <input-container-component  id="modeloInput" titulo="ID do Carro" foo-help="modeloInputHelp" descricao="Obrigatório.">
+                    <input-container-component  id="modeloInput" titulo="ID do Carro" foo-help="modeloInputHelp">
                         <input type="text" class="form-control" id="modeloInput" aria-describedby="modeloInputHelp" :value="$store.state.item.id" disabled>
                     </input-container-component>
                 </div>
 
                 <div class="form-group">
-                    <input-container-component id="placaInput" titulo="Placa" foo-help="placaInputHelp" descricao="Obrigatório.">
+                    <input-container-component id="placaInput" titulo="Placa" foo-help="placaInputHelp">
                         <input type="text" class="form-control" id="placaInput" aria-describedby="placaInputHelp" placeholder="Informe o número da placa" :value="$store.state.item.placa" disabled>
                     </input-container-component>
                 </div>
 
                 <div class="form-group">
-                    <input-container-component id="kmInput" titulo="Km" foo-help="kmInputHelp" descricao="Obrigatório.">
+                    <input-container-component id="kmInput" titulo="Km" foo-help="kmInputHelp">
                         <input type="number" class="form-control" id="kmInput" aria-describedby="kmInputHelp" placeholder="Informe os km rodados" :value="$store.state.item.km" disabled>
                     </input-container-component>
                 </div>
@@ -147,7 +158,6 @@
 
             <template v-slot:footer>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-                <button type="submit" class="btn btn-primary" @click="teste()">teste</button>
             </template>
         </modal-component>
         <!-- Fim do Modal Visualização de carros -->
@@ -211,6 +221,7 @@ export default {
             carros: { data: [] },
             km: '',
             disponivel: true,
+            busca: { id:'', placa:'', modelo_id:'' },
         }
     },
     methods: {
@@ -224,6 +235,29 @@ export default {
                 .catch(errors => {
                     console.log(errors)
                 })
+        },
+        pesquisar() {
+            let filtro = ''
+
+            for(let chave in this.busca) {
+                if(this.busca[chave]) {
+                    if(filtro != '') {
+                        filtro+= ';'
+                    }
+                    if(chave === 'placa') {
+                        filtro += chave + ':like:' + this.busca[chave] + '%'
+                    } else {
+                        filtro += chave + ':like:' + this.busca[chave]
+                    }
+                }
+            }
+            if(filtro != '') {
+                this.urlPaginacao = 'page=1'
+                this.urlFiltro = '&filtro='+filtro
+            } else {
+                this.urlFiltro = ''
+            }
+            this.carregarLista()
         },
         atualizar() {
             let formData = new FormData();
@@ -331,7 +365,7 @@ export default {
             }
         },
         teste() {
-            console.log(this.$store.state.item)
+            console.log('carro: '+ this.carros)
         }
     },
     mounted() {

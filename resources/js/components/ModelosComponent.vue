@@ -71,7 +71,7 @@
                             :atualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#modalEditarModelos'}"
                             :remover="{visivel: true, dataToggle: 'modal', dataTarget: '#modalRemoverModelos'}"
                             :titulos="{
-                                marca_id:{titulo: 'Id da Marca', tipo:'text'},
+                                marca:{titulo: 'Marca', tipo:'relation'},
                                 id: {titulo: 'ID', tipo:'text'},
                                 nome: {titulo: 'Nome', tipo:'text'},
                                 imagem: {titulo: 'Imagem', tipo:'img'},
