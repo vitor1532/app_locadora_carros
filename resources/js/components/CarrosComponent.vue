@@ -152,6 +152,42 @@
         </modal-component>
         <!-- Fim do Modal Visualização de carros -->
 
+        <!-- Modal Editar de carros -->
+        <modal-component id="modalEditarCarros" title="Editar Carro">
+            <template v-slot:alertas>
+                <alert-component tipo="success" titulo="Sucesso ao editar a marca" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
+                <alert-component tipo="danger" titulo="Erro ao tentar editar a marca" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'erro'"></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <div class="form-group">
+                    <input-container-component  id="modeloInput" titulo="Nome da Marca" foo-help="modeloInputHelp" descricao="Obrigatório.">
+                        <select class="custom-select mr-sm-2" id="modeloInput" v-model="modeloCarro">
+                            <option v-for="modelo in modelos" :value="modelo.id">{{ modelo.nome }}</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component id="placaInput" titulo="Placa" foo-help="placaInputHelp" descricao="Obrigatório.">
+                        <input type="text" class="form-control" id="placaInput" aria-describedby="placaInputHelp" placeholder="Informe o número da placa" v-model="$store.state.item.placa">
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component id="kmInput" titulo="Km" foo-help="kmInputHelp" descricao="Obrigatório.">
+                        <input type="number" class="form-control" id="kmInput" aria-describedby="kmInputHelp" placeholder="Informe os km rodados" v-model="$store.state.item.km">
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:footer>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <button type="submit" class="btn btn-primary" @click="atualizar()">Inserir Modelo</button>
+            </template>
+        </modal-component>
+        <!-- Fim do Modal Editar de carros -->
+
     </div>
 
 </template>
@@ -178,6 +214,43 @@ export default {
         }
     },
     methods: {
+        carregarLista() {
+            let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
+
+            axios.get(url)
+                .then(response => {
+                    this.carros = response.data
+                })
+                .catch(errors => {
+                    console.log(errors)
+                })
+        },
+        atualizar() {
+            let formData = new FormData();
+            formData.append('_method', 'patch')
+            formData.append('modelo_id', this.modeloCarro)
+            formData.append('placa', this.$store.state.item.placa)
+            formData.append('km', this.$store.state.item.km)
+
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+            let url = this.urlBase+'/'+this.$store.state.item.id
+
+            axios.post(url, formData, config)
+                .then(response => {
+                    this.$store.state.transacao.status = 'sucesso'
+                    this.$store.state.transacao.mensagem = 'Registro atualizado com sucesso'
+                    this.carregarLista()
+                })
+                .catch(errors => {
+                    this.$store.state.transacao.status = 'erro'
+                    this.$store.state.transacao.mensagem = errors.response.data.message
+                    this.$store.state.transacao.dados = errors.response.data.errors
+                })
+        },
         deletar() {
             let confirmacao = confirm('Tem certeza que deseja remover esse registro ?')
 
@@ -256,18 +329,6 @@ export default {
                 this.urlPaginacao = l.url.split('?')[1]
                 this.carregarLista()
             }
-        },
-        carregarLista() {
-            let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
-
-            axios.get(url)
-                .then(response => {
-                    this.carros = response.data
-                    //console.log('data: '+JSON.stringify(this.carros))
-                })
-                .catch(errors => {
-                    console.log(errors)
-                })
         },
         teste() {
             console.log(this.$store.state.item)
