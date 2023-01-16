@@ -19,9 +19,9 @@
                         </div>
 
                         <div class="form-group">
-                            <input-container-component  id="modeloInput" titulo="Nome da Marca" foo-help="modeloInputHelp" descricao="Opcional.">
+                            <input-container-component  id="modeloInput" titulo="Nome do modelo" foo-help="modeloInputHelp" descricao="Opcional.">
                                 <select class="custom-select mr-sm-2" id="modeloInput" v-model="busca.modelo_id">
-                                    <option selected value="">Nome da marca</option>
+                                    <option selected value="">Nome do modelo</option>
                                     <option v-for="modelo in modelos" :value="modelo.id">{{ modelo.nome }}</option>
                                 </select>
                             </input-container-component>
@@ -79,7 +79,7 @@
 
                 <template v-slot:conteudo>
                     <div class="form-group">
-                        <input-container-component  id="modeloInput" titulo="Nome da Marca" foo-help="modeloInputHelp">
+                        <input-container-component  id="modeloInput" titulo="Nome do Modelo" foo-help="modeloInputHelp">
                             <select class="custom-select mr-sm-2" id="modeloInput" v-model="modeloCarro">
                                 <option v-for="modelo in modelos" :value="modelo.id">{{ modelo.nome }}</option>
                             </select>
