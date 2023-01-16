@@ -84,8 +84,16 @@
 
                 <div class="form-group">
                     <input-container-component  id="modeloInput" titulo="Nome do Modelo" foo-help="modeloInputHelp" descricao="Obrigatório.">
-                        <select class="custom-select mr-sm-2" id="modeloInput" v-model="modeloCarro">
+                        <select class="custom-select mr-sm-2" id="modeloInput" v-model="modeloCarro" @change="getCarros()">
                             <option v-for="modelo in modelos" :value="modelo.id">{{ modelo.nome }}</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component  id="modeloInput" titulo="Nome do Modelo" foo-help="modeloInputHelp" descricao="Obrigatório.">
+                        <select class="custom-select mr-sm-2" id="modeloInput" v-model="carroId" @change="getCarroCompleto()">
+                            <option v-for="carro in carros" :value="carro.id">{{ carro.placa }}</option>
                         </select>
                     </input-container-component>
                 </div>
@@ -113,7 +121,10 @@ export default {
     components: {InputContainerComponent, TableComponent, ModalComponent, CardComponent},
     data() {
         return {
+            disponivel: '',
             modeloCarro: '',
+            carroId: '',
+            carroSelected: { data: [] },
             transacaoDetalhes: {},
             transacaoStatus: '',
             dataInicio: '',
@@ -121,6 +132,12 @@ export default {
             locacoes: { data: [] },
             busca: { id:'', cliente: '' },
             modelos: { data: [] },
+            carros: { data: [] },
+        }
+    },
+    computed: {
+        numeroDisponiveis: function() {
+
         }
     },
     methods: {
@@ -138,11 +155,13 @@ export default {
           console.log('opt')
         },
         salvar() {
-                dataEntrega
+
             let formData = new FormData();
             formData.append('modelo_id', this.modeloCarro)
+            formData.append('carro_id', this.carroId)
             formData.append('data_inicio_periodo', this.dataInicio)
             formData.append('data_final_previsto_periodo', this.dataEntrega)
+            formData.append('km_inicial', this.carroSelected.km)
 
             let config = {
                 headers: {
@@ -150,6 +169,7 @@ export default {
                 }
             }
 
+            console.log(Object.fromEntries(formData))
 
             // axios.post(this.urlBase, formData, config)
             //     .then(response => {
@@ -169,7 +189,9 @@ export default {
             //     })
         },
         getModelos() {
-            axios.get('http://127.0.0.1:8000/api/v1/modelo?get')
+            let url = 'http://127.0.0.1:8000/api/v1/modelo?get'
+
+            axios.get(url)
                 .then(response => {
                     console.log(response.data)
                     this.modelos = response.data
@@ -178,6 +200,33 @@ export default {
                     console.log(errors)
                 })
         },
+        getCarros() {
+
+            let url = 'http://127.0.0.1:8000/api/v1/carro?get&filtro=modelo_id:like:'+ this.modeloCarro
+
+            axios.get(url)
+                .then(response => {
+                    this.carros = response.data
+                })
+                .catch(errors => {
+                    console.log(errors)
+                })
+        },
+        getCarroCompleto() {
+            let url = 'http://127.0.0.1:8000/api/v1/carro/'+ this.modeloCarro
+
+            axios.get(url)
+                .then(response => {
+                    this.carroSelected = response.data
+                })
+                .catch(errors => {
+                    console.log(errors)
+                })
+            //console.log(this.carroSelected)
+        },
+        teste() {
+            console.log('modelo_id: '+this.modeloCarro)
+        }
     },
     mounted() {
         this.getModelos()

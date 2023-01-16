@@ -54,7 +54,7 @@
                         <div class="row">
                             <div class="col-10">
                                 <paginate-component>
-                                    <li v-for="l, key in modelos.links" :key="key" :class="l.active ? 'page-item active' : 'page-item'" @click="paginacao(l)">
+                                    <li v-for="l, key in carros.links" :key="key" :class="l.active ? 'page-item active' : 'page-item'" @click="paginacao(l)">
                                         <a class="page-link" v-html="l.label"></a>
                                     </li>
                                 </paginate-component>
@@ -71,7 +71,7 @@
         </div>
 
         <!-- Modal Criação de carros -->
-            <modal-component id="criarCarrosModal" title="Adicionar Carro">
+        <modal-component id="criarCarrosModal" title="Adicionar Carro">
                 <template v-slot:alertas>
                     <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Sucesso ao tentar cadastrar o modelo" v-if="transacaoStatus == 'adicionado'"></alert-component>
                     <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar o modelo" v-if="transacaoStatus == 'erro'"></alert-component>

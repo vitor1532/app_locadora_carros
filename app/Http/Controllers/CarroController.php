@@ -38,10 +38,11 @@ class CarroController extends Controller
         }
 
         if($request->has('attr')) {
-
             $attr = $request->attr;
             $carroRepository->selectAtributos($attr);
-
+        }
+        if($request->has('get')) {
+            return response()->json($carroRepository->getResult(), 200);
         }
 
         return response()->json($carroRepository->getResultPaginado(4), 200);
