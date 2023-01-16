@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <locacoes-component></locacoes-component>
+    <locacoes-component clienteId="{{ Auth::user()->id }}"></locacoes-component>
 
 @endsection

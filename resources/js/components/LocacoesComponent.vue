@@ -69,6 +69,7 @@
 
             <template v-slot:conteudo>
                 <div class="form-row">
+
                     <div class="col mb-3">
                         <input-container-component id="dataInicioInput" titulo="Data Inicial" foo-help="dataInicioInputHelp" descricao="Obrigatório.">
                             <input type="date" class="form-control" id="dataInicioInput" aria-describedby="dataInicioInputHelp" placeholder="Informe a data inicial do aluguel" v-model="dataInicio">
@@ -80,6 +81,11 @@
                             <input type="date" class="form-control" id="dataEntregaInput" aria-describedby="dataEntregaInputHelp" placeholder="Informe a data de entrega" v-model="dataEntrega">
                         </input-container-component>
                     </div>
+                </div>
+                <div class="form-group">
+                    <input-container-component id="clienteInput">
+                        <input type="hidden" :value="clienteId">
+                    </input-container-component>
                 </div>
 
                 <div class="form-group">
@@ -119,8 +125,10 @@ import CardComponent from "./CardComponent.vue";
 
 export default {
     components: {InputContainerComponent, TableComponent, ModalComponent, CardComponent},
+    props: ['clienteId'],
     data() {
         return {
+            cliente: '',
             disponivel: '',
             modeloCarro: '',
             carroId: '',
@@ -133,11 +141,6 @@ export default {
             busca: { id:'', cliente: '' },
             modelos: { data: [] },
             carros: { data: [] },
-        }
-    },
-    computed: {
-        numeroDisponiveis: function() {
-
         }
     },
     methods: {
@@ -157,6 +160,7 @@ export default {
         salvar() {
 
             let formData = new FormData();
+            formData.append('cliente_id', this.clienteId)
             formData.append('modelo_id', this.modeloCarro)
             formData.append('carro_id', this.carroId)
             formData.append('data_inicio_periodo', this.dataInicio)
